@@ -22,20 +22,13 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
-#include <vector>
+#include <set>
 #include <folly/Benchmark.h>
 
-BENCHMARK(insert_front) {
-    std::vector<int> v;
+BENCHMARK(insert) {
+    std::set<int> v;
     for (auto i = 0; i < 1000; i++) {
-        v.insert(v.begin(), i);
-    }
-}
-
-BENCHMARK(insert_back) {
-    std::vector<int> v;
-    for (auto i = 0; i < 1000; i++) {
-        v.insert(v.end(), i);
+        v.insert(i);
     }
 }
 
@@ -48,8 +41,7 @@ int main(void)
 // ============================================================================
 // /home/user/book/chapter01/recipe04.cpp          relative  time/iter  iters/s
 // ============================================================================
-// insert_front                                               143.72us    6.96K
-// insert_back                                                 42.11us   23.75K
+// insert                                                     384.74us    2.60K
 // ============================================================================
 
 #endif

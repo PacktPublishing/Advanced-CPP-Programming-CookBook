@@ -63,27 +63,6 @@ int main(void)
 
 #include <iostream>
 
-void add(int &a, int b)
-{ a += b; }
-
-int main(void)
-{
-    int a = 41, b = 1;
-    add(a, b);
-
-    std::cout << "The answer is: " << a << '\n';
-    return 0;
-}
-
-// The answer is: 42
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE04
-
-#include <iostream>
-
 int add(int a, int b)
 { return a + b; }
 
@@ -98,7 +77,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE05
+#ifdef EXAMPLE04
 
 #include <stdio.h>
 #include <iostream>
@@ -116,7 +95,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE06
+#ifdef EXAMPLE05
 
 #include <iostream>
 
@@ -136,7 +115,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE07
+#ifdef EXAMPLE06
 
 #include <iostream>
 
@@ -160,7 +139,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE08
+#ifdef EXAMPLE07
 
 #include <queue>
 #include <iostream>
@@ -181,7 +160,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE09
+#ifdef EXAMPLE08
 
 #include <iostream>
 
@@ -199,7 +178,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE10
+#ifdef EXAMPLE09
 
 #include <iostream>
 

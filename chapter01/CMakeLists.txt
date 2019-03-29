@@ -31,33 +31,85 @@ find_package(Git REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
-function(example recipe number)
-    add_executable(${recipe}_example${number} ${recipe}.cpp)
-    target_compile_definitions(${recipe}_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+# ------------------------------------------------------------------------------
+# Recipe 01
+# ------------------------------------------------------------------------------
 
-    target_link_libraries(${recipe}_example${number} follybenchmark folly glog gflags double-conversion boost_chrono boost_log boost_regex boost_system pthread)
+add_custom_target(recipe01_examples)
+
+function(example number)
+    add_executable(recipe01_example${number} recipe01.cpp)
+    target_compile_definitions(recipe01_example${number} PRIVATE EXAMPLE${number})
+    add_dependencies(recipe01_examples recipe01_example${number})
 endfunction(example)
 
+example(01)
+example(02)
+example(03)
+example(04)
+example(05)
+example(06)
+example(07)
+example(08)
+example(09)
+
 # ------------------------------------------------------------------------------
-# Examples
+# Recipe 02
 # ------------------------------------------------------------------------------
 
-example(recipe01 01)
-example(recipe01 02)
-example(recipe01 03)
-example(recipe01 04)
-example(recipe01 05)
-example(recipe01 06)
-example(recipe01 07)
-example(recipe01 08)
-example(recipe01 09)
-example(recipe01 10)
+add_custom_target(recipe02_examples)
 
-example(recipe02 01)
-example(recipe02 02)
+function(example number)
+    add_executable(recipe02_example${number} recipe02.cpp)
+    target_compile_definitions(recipe02_example${number} PRIVATE EXAMPLE${number})
+    add_dependencies(recipe02_examples recipe02_example${number})
+endfunction(example)
 
-example(recipe03 01)
-example(recipe03 02)
+example(01)
+example(02)
 
-example(recipe04 01)
-example(recipe04 02)
+# ------------------------------------------------------------------------------
+# Recipe 03
+# ------------------------------------------------------------------------------
+
+add_custom_target(recipe03_examples)
+
+function(example number)
+    add_executable(recipe03_example${number} recipe03.cpp)
+    target_compile_definitions(recipe03_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+    add_dependencies(recipe03_examples recipe03_example${number})
+    target_link_libraries(recipe03_example${number} boost_chrono boost_log boost_system pthread)
+endfunction(example)
+
+example(01)
+example(02)
+
+# ------------------------------------------------------------------------------
+# Recipe 04
+# ------------------------------------------------------------------------------
+
+add_custom_target(recipe04_examples)
+
+function(example number)
+    add_executable(recipe04_example${number} recipe04.cpp)
+    target_compile_definitions(recipe04_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+    add_dependencies(recipe04_examples recipe04_example${number})
+    target_link_libraries(recipe04_example${number} follybenchmark folly glog gflags double-conversion boost_regex boost_system pthread)
+endfunction(example)
+
+example(01)
+example(02)
+
+# function(example recipe number)
+#     add_executable(${recipe}_example${number} ${recipe}.cpp)
+#     target_compile_definitions(${recipe}_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+
+#     target_link_libraries(${recipe}_example${number} follybenchmark folly glog gflags double-conversion boost_chrono boost_log boost_regex boost_system pthread)
+# endfunction(example)
+
+
+# example(01)
+# example(02)
+
+# example(01)
+# example(02)

@@ -42,6 +42,8 @@ int main(void)
     return 0;
 }
 
+// The answer is: 42
+
 #endif
 
 // -----------------------------------------------------------------------------
@@ -51,9 +53,9 @@ int main(void)
 
 namespace library_name
 {
-    inline int answer = 42;
+    namespace details { inline int answer = 42; }
 
-    int my_api() { return answer; }
+    int my_api() { return details::answer; }
     // ...
 }
 
@@ -68,5 +70,7 @@ int main(void)
     std::cout << "The answer is: " << my_api() << '\n';
     return 0;
 }
+
+// The answer is: 42
 
 #endif
