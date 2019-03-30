@@ -26,9 +26,6 @@
 cmake_minimum_required(VERSION 3.6)
 project(chapter01)
 
-include(ExternalProject)
-find_package(Git REQUIRED)
-
 set(CMAKE_CXX_STANDARD 17)
 
 # ------------------------------------------------------------------------------
@@ -100,16 +97,55 @@ endfunction(example)
 example(01)
 example(02)
 
-# function(example recipe number)
-#     add_executable(${recipe}_example${number} ${recipe}.cpp)
-#     target_compile_definitions(${recipe}_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+# ------------------------------------------------------------------------------
+# Recipe 05
+# ------------------------------------------------------------------------------
 
-#     target_link_libraries(${recipe}_example${number} follybenchmark folly glog gflags double-conversion boost_chrono boost_log boost_regex boost_system pthread)
-# endfunction(example)
+if(DEFINED BUILD_RECIPE05)
+    set(ignore "${BUILD_RECIPE05}")
 
+    add_subdirectory(abseil-cpp-20181200)
+    add_custom_target(recipe05_examples)
 
-# example(01)
-# example(02)
+    function(example number)
+        add_executable(recipe05_example${number} recipe05.cpp)
+        target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+        add_dependencies(recipe05_examples recipe05_example${number})
+        target_link_libraries(recipe05_example${number} absl::strings absl::time)
+    endfunction(example)
 
-# example(01)
-# example(02)
+    example(01)
+    example(02)
+endif()
+
+# ------------------------------------------------------------------------------
+# Recipe 06
+# ------------------------------------------------------------------------------
+
+if(DEFINED BUILD_RECIPE06)
+    set(ignore "${BUILD_RECIPE06}")
+
+    find_package(Poco REQUIRED JSON)
+    add_custom_target(recipe06_examples)
+
+    function(example number)
+        add_executable(recipe06_example${number} recipe06.cpp)
+        add_dependencies(recipe06_examples recipe06_example${number})
+        target_link_libraries(recipe06_example${number} Poco::JSON)
+    endfunction(example)
+
+    example(01)
+endif()
+
+# ------------------------------------------------------------------------------
+# Recipe 05 Example 01 Script
+# ------------------------------------------------------------------------------
+
+# cmake_minimum_required(VERSION 3.6)
+# project(chapter01)
+
+# set(CMAKE_CXX_STANDARD 17)
+
+# add_subdirectory(abseil-cpp-20181200)
+# add_executable(recipe05_example01 recipe05.cpp)
+# target_link_libraries(recipe05_example01 absl::strings)
