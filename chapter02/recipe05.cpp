@@ -28,28 +28,26 @@
 #include <iostream>
 #include <stdexcept>
 
-void foo()
+class the_answer : public std::exception
 {
-    try {
-        throw std::runtime_error("The answer is: 42");
+public:
+    the_answer() noexcept = default;
+    const char *what() const noexcept
+    {
+        return "The answer is: 42";
     }
-    catch (const std::exception &e) {
-        std::cout << e.what() << '\n';
-        throw;
-    }
-}
+};
 
 int main(void)
 {
     try {
-        foo();
+        throw the_answer{};
     }
     catch (const std::exception &e) {
         std::cout << e.what() << '\n';
     }
 }
 
-// The answer is: 42
 // The answer is: 42
 
 #endif
@@ -60,20 +58,28 @@ int main(void)
 #include <iostream>
 #include <stdexcept>
 
+class the_answer : public std::exception
+{
+    const char *m_str;
+public:
+
+    the_answer(const char *str) noexcept :
+        m_str{str}
+    { }
+
+    const char *what() const noexcept
+    {
+        return m_str;
+    }
+};
+
 int main(void)
 {
-    std::exception_ptr eptr;
-
     try {
-        try {
-            throw std::runtime_error("The answer is: 42");
-        }
-        catch (...) {
-            throw;
-        }
+        throw the_answer("42");
     }
     catch (const std::exception &e) {
-        std::cout << e.what() << '\n';
+        std::cout << "The answer is: " << e.what() << '\n';
     }
 }
 
@@ -86,69 +92,27 @@ int main(void)
 
 #include <iostream>
 #include <stdexcept>
+#include <string.h>
 
-int main(void)
+class the_answer : public std::runtime_error
 {
-    std::exception_ptr eptr;
-
-    try {
-        throw std::runtime_error("The answer is: 42");
-    }
-    catch (...) {
-        eptr = std::current_exception();
-    }
-
-    try {
-        std::rethrow_exception(eptr);
-    }
-    catch (const std::exception &e) {
-        std::cout << e.what() << '\n';
-    }
-}
-
-// The answer is: 42
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE04
-
-#include <thread>
-#include <iostream>
-#include <stdexcept>
-
-std::exception_ptr eptr{};
-
-void thread1()
-{
-    while (eptr == nullptr)
+public:
+    explicit the_answer(const char *str) :
+        std::runtime_error{str}
     { }
-
-    try {
-        std::rethrow_exception(eptr);
-    }
-    catch (const std::exception &e) {
-        std::cout << e.what() << '\n';
-    }
-}
-
-void thread2()
-{
-    try {
-        throw std::runtime_error("The answer is: 42");
-    }
-    catch (const std::runtime_error &e) {
-        eptr = std::make_exception_ptr(e);
-    }
-}
+};
 
 int main(void)
 {
-    std::thread t1(thread1);
-    std::thread t2(thread2);
-
-    t2.join();
-    t1.join();
+    try {
+        throw the_answer("42");
+    }
+    catch (const the_answer &e) {
+        std::cout << "The answer is: " << e.what() << '\n';
+    }
+    catch (const std::exception &e) {
+        std::cout << "unknown exception: " << e.what() << '\n';
+    }
 }
 
 // The answer is: 42

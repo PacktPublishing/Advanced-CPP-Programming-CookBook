@@ -60,9 +60,10 @@ int main(void)
 
 class the_answer
 {
+public:
+
     int *answer{};
 
-public:
     the_answer() :
         answer{new int}
     {
@@ -79,7 +80,12 @@ public:
 int main(void)
 {
     the_answer is;
-    return 0;
+
+    if (*is.answer == 42) {
+        return 0;
+    }
+
+    return 1;
 }
 
 // The answer is: 42
@@ -94,18 +100,19 @@ int main(void)
 
 class the_answer
 {
+public:
+
     int *answer{};
 
-public:
     the_answer() :
         answer{new int}
     {
-        *answer = 42;
+        *answer = 43;
     }
 
     ~the_answer()
     {
-        std::cout << "The answer is: " << *answer << '\n';
+        std::cout << "The answer is not: " << *answer << '\n';
         delete answer;
     }
 };
@@ -113,6 +120,11 @@ public:
 void foo()
 {
     the_answer is;
+
+    if (*is.answer == 42) {
+        return;
+    }
+
     throw std::runtime_error("");
 }
 
@@ -127,7 +139,7 @@ int main(void)
     return 0;
 }
 
-// The answer is: 42
+// The answer is not: 43
 
 #endif
 
@@ -190,13 +202,7 @@ int main(void)
 {
     try {
         auto execute_on_exit = finally{[]{
-            try {
-                std::cout << "The answer is: 42\n";
-            }
-            catch (...)
-            {
-                // handle or call std::terminate
-            }
+            std::cout << "The answer is: 42\n";
         }};
 
         std::cout << "step 1: Collect answers\n";

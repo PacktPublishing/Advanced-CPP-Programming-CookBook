@@ -120,17 +120,27 @@ int main(void)
 #include <iostream>
 #include <stdexcept>
 
+class nested
+{
+public:
+    ~nested()
+    {
+        std::cout << "# exceptions: " << std::uncaught_exceptions() << '\n';
+    }
+};
+
 class the_answer
 {
 public:
-    ~the_answer() noexcept(false)
+    ~the_answer()
     {
-        if (std::uncaught_exceptions() > 0) {
-            std::cout << "unable to throw 42\n";
-            return;
+        try {
+            nested n;
+            throw std::runtime_error("42");
         }
-
-        throw std::runtime_error("42");
+        catch (const std::exception &e) {
+            std::cout << "The answer is: " << e.what() << '\n';
+        }
     }
 };
 
@@ -138,15 +148,16 @@ int main(void)
 {
     try {
         the_answer is;
-        throw std::runtime_error("first exception");
+        throw std::runtime_error("always 42");
     }
     catch (const std::exception &e) {
         std::cout << "The answer is: " << e.what() << '\n';
     }
 }
 
-// unable to throw 42
-// The answer is: first exception
+// # exceptions: 2
+// The answer is: 42
+// The answer is: always 42
 
 #endif
 
