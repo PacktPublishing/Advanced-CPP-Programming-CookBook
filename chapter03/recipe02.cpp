@@ -127,8 +127,3 @@ int main(void)
 // The answer is: 42
 
 #endif
-
-// the_answer is;
-// the_answer is_42{42};
-// is = std::move(is_42);
-// is_42 = std::move(is);

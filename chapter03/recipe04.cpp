@@ -39,12 +39,8 @@ public:
 
     ~the_answer()
     {
-        try {
-            auto answer = m_answer.at(0);
-            std::cout << "The answer is: " << answer << '\n';
-        }
-        catch(...) {
-            std::cout << "The answer is not: 0" << '\n';
+        if (!m_answer.empty()) {
+            std::cout << "The answer is: " << m_answer.at(0) << '\n';
         }
     }
 
@@ -60,7 +56,6 @@ public:
         try {
             m_answer.emplace(m_answer.begin(), other.m_answer.at(0));
             other.m_answer.erase(other.m_answer.begin());
-
         }
         catch(...) {
             std::cout << "failed to move\n";
@@ -68,11 +63,6 @@ public:
 
         return *this;
     }
-
-public:
-
-    the_answer(const the_answer &) = default;
-    the_answer &operator=(const the_answer &) = default;
 };
 
 int main(void)

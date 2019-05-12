@@ -42,16 +42,8 @@ public:
 
 public:
 
-    the_answer(the_answer &&other) noexcept
-    {
-        *this = std::move(other);
-    }
-
-    the_answer &operator=(the_answer &&other) noexcept
-    {
-        m_answer = std::move(other.m_answer);
-        return *this;
-    }
+    the_answer(the_answer &&other) noexcept = default;
+    the_answer &operator=(the_answer &&other) noexcept = default;
 };
 
 int main(void)

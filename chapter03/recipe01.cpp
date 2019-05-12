@@ -26,22 +26,14 @@
 
 class the_answer
 {
+    int m_answer{42};
+
 public:
 
     the_answer()
     {
-        std::cout << "The answer is: 42\n";
+        std::cout << "The answer is: " << m_answer << '\n';
     }
-
-public:
-
-    ~the_answer() = default;
-
-    the_answer(the_answer &&) noexcept = default;
-    the_answer &operator=(the_answer &&) noexcept = default;
-
-    the_answer(const the_answer &) = default;
-    the_answer &operator=(const the_answer &) = default;
 };
 
 int main(void)
@@ -54,6 +46,18 @@ int main(void)
 
 #endif
 
+// the_answer is1;
+// the_answer is2 = is1;
+
+// the_answer is1;
+// the_answer is2 = std::move(is1);
+
+// class the_question : public the_answer
+// {
+// public:
+//     the_question() = default;
+// };
+
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02
 
@@ -61,11 +65,13 @@ int main(void)
 
 class the_answer
 {
+    int m_answer{42};
+
 public:
 
     the_answer()
     {
-        std::cout << "The answer is: 42\n";
+        std::cout << "The answer is: " << m_answer << '\n';
     }
 
 public:
@@ -96,11 +102,13 @@ int main(void)
 
 class the_answer
 {
+    int m_answer{42};
+
 public:
 
     the_answer()
     {
-        std::cout << "The answer is: 42\n";
+        std::cout << "The answer is: " << m_answer << '\n';
     }
 
 public:
@@ -131,11 +139,13 @@ int main(void)
 
 class the_answer
 {
+    int m_answer{42};
+
 public:
 
     the_answer()
     {
-        std::cout << "The answer is: 42\n";
+        std::cout << "The answer is: " << m_answer << '\n';
     }
 
 public:

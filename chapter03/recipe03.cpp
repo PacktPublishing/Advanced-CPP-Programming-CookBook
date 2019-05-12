@@ -31,8 +31,6 @@ class the_answer
 
 public:
 
-    the_answer() = default;
-
     explicit the_answer(int answer) :
         m_answer{std::make_unique<int>(answer)}
     { }
@@ -121,6 +119,10 @@ int main(void)
 
     return 0;
 }
+
+// /home/rianquinn/book/chapter03/recipe03.cpp:111:5: note: ‘the_answer::the_answer(const the_answer&)’ is implicitly deleted because the default definition would be ill-formed:
+//   111 |     the_answer(const the_answer &) = default;
+//       |     ^~~~~~~~~~
 
 #endif
 
