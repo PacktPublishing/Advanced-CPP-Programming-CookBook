@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rianquinn/book/chapter04/recipe03.cpp
+iostream
+-
+iostream
+-
+iostream
+-
+iostream
+-
+iostream
+-
+tuple
+-
+iostream
+-
+tuple
+-
+iostream
+-
+tuple
+-
+iostream
+-
+
