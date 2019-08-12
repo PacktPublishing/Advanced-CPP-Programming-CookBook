@@ -29,3 +29,27 @@ project(book)
 # ------------------------------------------------------------------------------
 # Chapters
 # ------------------------------------------------------------------------------
+
+include(ExternalProject)
+
+# ------------------------------------------------------------------------------
+# Helper
+# ------------------------------------------------------------------------------
+
+function(add_chapter name)
+    ExternalProject_Add(
+        ${name}
+        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${name}
+        INSTALL_COMMAND ""
+    )
+endfunction(add_chapter)
+
+# ------------------------------------------------------------------------------
+# Chapters
+# ------------------------------------------------------------------------------
+
+add_chapter(chapter01)
+add_chapter(chapter02)
+add_chapter(chapter03)
+add_chapter(chapter04)
+add_chapter(chapter05)

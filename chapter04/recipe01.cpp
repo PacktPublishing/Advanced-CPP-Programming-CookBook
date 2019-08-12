@@ -24,22 +24,31 @@
 
 #include <iostream>
 
-template<typename T>
-void the_answer(T is)
+struct the_answer
 {
-    std::cout << "The answer is: " << is << '\n';
+    using type = unsigned;
+};
+
+template<typename T>
+void foo(typename T::type t)
+{
+    std::cout << "The answer is: " << t << '\n';
+}
+
+template<typename T>
+void foo(T t)
+{
+    std::cout << "The answer is: " << t << '\n';
 }
 
 int main(void)
 {
-    the_answer(42);
-    the_answer(42U);
-    the_answer(42.0);
+    foo<int>(42);
+    foo<the_answer>(42);
 
     return 0;
 }
 
-// The answer is: 42
 // The answer is: 42
 // The answer is: 42
 
@@ -51,9 +60,17 @@ int main(void)
 #include <iostream>
 #include <type_traits>
 
+template<typename T>
+constexpr auto is_int()
+{ return false; }
+
+template<>
+constexpr auto is_int<int>()
+{ return true; }
+
 template<
     typename T,
-    std::enable_if_t<std::is_integral_v<T>, int> = 0
+    std::enable_if_t<is_int<T>(), int> = 0
     >
 void the_answer(T is)
 {
@@ -69,17 +86,6 @@ int main(void)
 // The answer is: 42
 
 #endif
-
-// template<bool B, class T = void>
-// struct enable_if {};
-
-// template<class T>
-// struct enable_if<true, T> { typedef T type; };
-
-// template<
-//     typename T,
-//     typename = std::enable_if_t<std::is_integral_v<T>>
-//     >
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE03
@@ -112,45 +118,20 @@ int main(void)
 #include <iostream>
 #include <type_traits>
 
-template<
-    typename T,
-    std::enable_if_t<std::is_integral_v<T>>* = nullptr
-    >
-void the_answer(T is)
+template<typename T>
+std::enable_if_t<std::is_integral_v<T>>
+the_answer(T is)
 {
     std::cout << "The answer is: " << is << '\n';
 }
 
 int main(void)
 {
-    the_answer(42.0);
-
+    the_answer(42);
     return 0;
 }
 
-// /home/user/book/chapter04/recipe01.cpp: In function ‘int main()’:
-// /home/user/book/chapter04/recipe01.cpp:126:20: error: no matching function for call to ‘the_answer(double)’
-//   126 |     the_answer(42.0);
-//       |                    ^
-// /home/user/book/chapter04/recipe01.cpp:119:6: note: candidate: ‘template<class T, std::enable_if_t<is_integral_v<T> >* <anonymous> > void the_answer(T)’
-//   119 | void the_answer(T is)
-//       |      ^~~~~~~~~~
-// /home/user/book/chapter04/recipe01.cpp:119:6: note:   template argument deduction/substitution failed:
-// In file included from /usr/include/c++/9/bits/move.h:55,
-//                  from /usr/include/c++/9/bits/nested_exception.h:40,
-//                  from /usr/include/c++/9/exception:144,
-//                  from /usr/include/c++/9/ios:39,
-//                  from /usr/include/c++/9/ostream:38,
-//                  from /usr/include/c++/9/iostream:39,
-//                  from /home/user/book/chapter04/recipe01.cpp:112:
-// /usr/include/c++/9/type_traits: In substitution of ‘template<bool _Cond, class _Tp> using enable_if_t = typename std::enable_if::type [with bool _Cond = std::is_integral_v<double>; _Tp = void]’:
-// /home/user/book/chapter04/recipe01.cpp:117:48:   required from here
-// /usr/include/c++/9/type_traits:2426:11: error: no type named ‘type’ in ‘struct std::enable_if<false, void>’
-//  2426 |     using enable_if_t = typename enable_if<_Cond, _Tp>::type;
-//       |           ^~~~~~~~~~~
-// make[2]: *** [CMakeFiles/recipe01_example04.dir/build.make:63: CMakeFiles/recipe01_example04.dir/recipe01.cpp.o] Error 1
-// make[1]: *** [CMakeFiles/Makefile2:147: CMakeFiles/recipe01_example04.dir/all] Error 2
-// make: *** [Makefile:84: all] Error 2
+// The answer is: 42
 
 #endif
 

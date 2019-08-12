@@ -22,110 +22,93 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <mutex>
+#include <thread>
 #include <iostream>
 
-template<typename... Args>
-void foo(Args &&...args)
-{ }
+std::mutex m{};
+
+class the_answer
+{
+public:
+    void print() const
+    {
+        std::lock_guard lock(m);
+        std::cout << "The answer is: 42\n";
+    }
+};
 
 int main(void)
 {
-    foo("The answer is: ", 42);
+    the_answer is;
+    is.print();
+
     return 0;
 }
+
+// The answer is: 42
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02
 
-#include <tuple>
+#include <mutex>
+#include <thread>
 #include <iostream>
+
+class the_answer
+{
+    std::mutex m{};
+
+public:
+    void print() const
+    {
+        std::lock_guard lock(m);
+        std::cout << "The answer is: 42\n";
+    }
+};
 
 int main(void)
 {
-    std::tuple t("the answer is: ", 42);
-    std::cout << std::get<0>(t) << std::get<1>(t) << '\n';
+    the_answer is;
+    is.print();
+
     return 0;
 }
+
+// ...
+// /home/user/book/chapter05/recipe03.cpp:67:31:   required from here
+// /usr/include/c++/9/bits/std_mutex.h:159:9: error: passing ‘std::lock_guard<const std::mutex>::mutex_type’ {aka ‘const std::mutex’} as ‘this’ argument discards qualifiers [-fpermissive]
+//   159 |       { _M_device.lock(); }
+//       |         ^~~~~~~~~
+// ...
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE03
 
-#include <tuple>
+#include <mutex>
+#include <thread>
 #include <iostream>
 
-template<typename... Args>
-void foo(Args &&...args)
+class the_answer
 {
-    std::tuple t(std::forward<Args>(args)...);
-    std::cout << std::get<0>(t) << std::get<1>(t) << '\n';
-}
+    mutable std::mutex m{};
 
-int main(void)
-{
-    foo("The answer is: ", 42);
-    return 0;
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE04
-
-#include <tuple>
-#include <iostream>
-
-template<typename... Args>
-void foo(Args &&...args)
-{
-    std::cout << sizeof...(Args) << '\n';
-    std::cout << std::tuple_size_v<std::tuple<Args...>> << '\n';
-}
-
-int main(void)
-{
-    foo("The answer is", 42);
-    return 0;
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE05
-
-#include <tuple>
-#include <iostream>
-
-template<
-    std::size_t I = 0,
-    typename ... Args,
-    typename FUNCTION
-    >
-constexpr void
-for_each(const std::tuple<Args...> &t, FUNCTION &&func)
-{
-    if constexpr (I < sizeof...(Args)) {
-        func(std::get<I>(t));
-        for_each<I + 1>(t, std::forward<FUNCTION>(func));
+public:
+    void print() const
+    {
+        std::lock_guard lock(m);
+        std::cout << "The answer is: 42\n";
     }
-}
-
-template<typename... Args>
-void foo(Args &&...args)
-{
-    std::tuple t(std::forward<Args>(args)...);
-    for_each(t, [](const auto &arg) {
-        std::cout << arg;
-    });
-}
+};
 
 int main(void)
 {
-    foo("The answer is: ", 42);
-    std::cout << '\n';
+    the_answer is;
+    is.print();
 
     return 0;
 }
