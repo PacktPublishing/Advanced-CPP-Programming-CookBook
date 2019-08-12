@@ -46,7 +46,7 @@ ExternalProject_Add(
     CMAKE_ARGS ${CATCH_CMAKE_ARGS}
 )
 
-include_directories(${CMAKE_BINARY_DIR}/external/include/catch)
+include_directories(${CMAKE_BINARY_DIR}/external/include/catch2)
 
 function(example number)
     add_executable(recipe01_example${number} recipe01.cpp)
@@ -55,6 +55,8 @@ function(example number)
 endfunction(example)
 
 example(01)
+example(02)
+example(03)
 
 # ------------------------------------------------------------------------------
 # Recipe 02
