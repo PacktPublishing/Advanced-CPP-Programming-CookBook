@@ -22,65 +22,87 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
-void foo1()
+class myclass
+{
+    int answer;
+
+public:
+    ~myclass()
+    {
+        answer = 42;
+    }
+};
+
+void foo()
 {
     throw 42;
-}
-
-void foo2()
-{
-    throw 42;
-}
-
-void foo42()
-{
-    foo1();
-    foo2();
 }
 
 int main(void)
 {
+    myclass c;
+
     try {
-        foo42();
+        foo();
     }
     catch (...) {
     }
 }
 
-// > readelf -SW ./recipe04_example01 | grep .gcc_except_table
-//   [18] .gcc_except_table PROGBITS        00000000004021d0 0021d0 000014 00   A  0   0  4
+// > objdump -d ./recipe04_example01 | awk '/main>:/,/ret/'
+// 000000000040119c <main>:
+//   ...
+//   4011e1: callq  401080 <_Unwind_Resume@plt>
+//   ...
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02
 
-void foo1()
+class myclass
+{
+    int answer;
+
+public:
+    ~myclass()
+    {
+        answer = 42;
+    }
+};
+
+void foo()
 {
     throw 42;
 }
 
-void foo2()
+int main(void) noexcept
 {
-    throw 42;
-}
+    myclass c;
 
-void foo42() noexcept
-{
-    foo1();
-    foo2();
-}
-
-int main(void)
-{
     try {
-        foo42();
+        foo();
     }
     catch (...) {
     }
 }
 
-// > readelf -SW ./recipe04_example02 | grep .gcc_except_table
-//   [18] .gcc_except_table PROGBITS        00000000004021d0 0021d0 000004 00   A  0   0  1
+// > objdump -d ./recipe04_example02 | awk '/main>:/,/ret/'
+// 000000000040118c <main>:
+//   40118c: push   %rbp
+//   40118d: mov    %rsp,%rbp
+//   401190: sub    $0x10,%rsp
+//   401194: callq  401166 <_Z3foov>
+//   401199: lea    -0x4(%rbp),%rax
+//   40119d: mov    %rax,%rdi
+//   4011a0: callq  4011be <_ZN7myclassD1Ev>
+//   4011a5: mov    $0x0,%eax
+//   4011aa: jmp    4011bb <main+0x2f>
+//   4011ac: mov    %rax,%rdi
+//   4011af: callq  401030 <__cxa_begin_catch@plt>
+//   4011b4: callq  401050 <__cxa_end_catch@plt>
+//   4011b9: jmp    401199 <main+0xd>
+//   4011bb: leaveq
+//   4011bc: retq
 
 #endif

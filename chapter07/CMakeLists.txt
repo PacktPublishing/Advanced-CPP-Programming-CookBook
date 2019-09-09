@@ -30,6 +30,16 @@ set(CMAKE_CXX_STANDARD 17)
 include(ExternalProject)
 
 # ------------------------------------------------------------------------------
+# Sanatizer Flags
+# ------------------------------------------------------------------------------
+
+set(CMAKE_C_FLAGS_ASAN "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1")
+set(CMAKE_CXX_FLAGS_ASAN "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1")
+
+set(CMAKE_C_FLAGS_UBSAN "-fsanitize=undefined")
+set(CMAKE_CXX_FLAGS_UBSAN "-fsanitize=undefined")
+
+# ------------------------------------------------------------------------------
 # Recipe 01
 # ------------------------------------------------------------------------------
 
@@ -44,19 +54,26 @@ ExternalProject_Add(
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
     GIT_SHALLOW 1
     CMAKE_ARGS ${CATCH_CMAKE_ARGS}
+    UPDATE_COMMAND cmake -E echo "-- Skipping update"
 )
 
 include_directories(${CMAKE_BINARY_DIR}/external/include/catch2)
 
 function(example number)
     add_executable(recipe01_example${number} recipe01.cpp)
-    target_compile_definitions(recipe01_example${number} PRIVATE EXAMPLE${number})
+    target_compile_definitions(recipe01_example${number} PRIVATE EXAMPLE${number} VIRTUAL=virtual)
     add_dependencies(recipe01_examples recipe01_example${number})
+    add_dependencies(recipe01_example${number} catch)
 endfunction(example)
 
 example(01)
 example(02)
 example(03)
+example(04)
+example(05)
+example(06)
+example(07)
+example(08)
 
 # ------------------------------------------------------------------------------
 # Recipe 02
@@ -67,15 +84,14 @@ add_custom_target(recipe02_examples)
 function(example number)
     add_executable(recipe02_example${number} recipe02.cpp)
     target_compile_definitions(recipe02_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe02_example${number} pthread)
     add_dependencies(recipe02_examples recipe02_example${number})
 endfunction(example)
 
-# example(01)
-# example(02)
-# example(03)
-# example(04)
-# example(05)
+example(01)
+example(02)
+example(03)
+example(04)
+example(05)
 
 # ------------------------------------------------------------------------------
 # Recipe 03
@@ -90,11 +106,10 @@ function(example number)
     add_dependencies(recipe03_examples recipe03_example${number})
 endfunction(example)
 
-# example(01)
-# example(02)
-# example(03)
-# example(04)
-# example(05)
+example(01)
+example(02)
+example(03)
+example(04)
 
 # ------------------------------------------------------------------------------
 # Recipe 04
@@ -105,9 +120,8 @@ add_custom_target(recipe04_examples)
 function(example number)
     add_executable(recipe04_example${number} recipe04.cpp)
     target_compile_definitions(recipe04_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe04_example${number} pthread)
     add_dependencies(recipe04_examples recipe04_example${number})
 endfunction(example)
 
-# example(01)
-# example(02)
+example(01)
+example(02)

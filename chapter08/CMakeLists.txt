@@ -24,10 +24,9 @@
 # ------------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.6)
-project(chapter06)
+project(chapter08)
 
 set(CMAKE_CXX_STANDARD 17)
-include(ExternalProject)
 
 # ------------------------------------------------------------------------------
 # Recipe 01
@@ -35,29 +34,15 @@ include(ExternalProject)
 
 add_custom_target(recipe01_examples)
 
-list(APPEND HAYAI_CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/
-)
-
-ExternalProject_Add(
-    hayai
-    GIT_REPOSITORY https://github.com/nickbruun/hayai.git
-    GIT_SHALLOW 1
-    CMAKE_ARGS ${HAYAI_CMAKE_ARGS}
-)
-
-include_directories(${CMAKE_BINARY_DIR}/external/include/hayai)
-
 function(example number)
     add_executable(recipe01_example${number} recipe01.cpp)
     target_compile_definitions(recipe01_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe01_example${number} pthread ${CMAKE_BINARY_DIR}/external/lib/libhayai_main.a)
-    add_dependencies(recipe01_example${number} hayai)
     add_dependencies(recipe01_examples recipe01_example${number})
 endfunction(example)
 
 example(01)
 example(02)
+example(03)
 
 # ------------------------------------------------------------------------------
 # Recipe 02
@@ -68,15 +53,10 @@ add_custom_target(recipe02_examples)
 function(example number)
     add_executable(recipe02_example${number} recipe02.cpp)
     target_compile_definitions(recipe02_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe02_example${number} pthread)
     add_dependencies(recipe02_examples recipe02_example${number})
 endfunction(example)
 
 example(01)
-example(02)
-example(03)
-example(04)
-example(05)
 
 # ------------------------------------------------------------------------------
 # Recipe 03
@@ -87,17 +67,11 @@ add_custom_target(recipe03_examples)
 function(example number)
     add_executable(recipe03_example${number} recipe03.cpp)
     target_compile_definitions(recipe03_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe03_example${number} pthread)
     add_dependencies(recipe03_examples recipe03_example${number})
 endfunction(example)
 
 example(01)
 example(02)
-example(03)
-example(04)
-example(05)
-example(06)
-example(07)
 
 # ------------------------------------------------------------------------------
 # Recipe 04
@@ -108,12 +82,11 @@ add_custom_target(recipe04_examples)
 function(example number)
     add_executable(recipe04_example${number} recipe04.cpp)
     target_compile_definitions(recipe04_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe04_example${number} pthread)
     add_dependencies(recipe04_examples recipe04_example${number})
+    target_link_libraries(recipe04_example${number} pthread)
 endfunction(example)
 
-example(01)
-example(02)
+# example(01)
 
 # ------------------------------------------------------------------------------
 # Recipe 05
@@ -124,9 +97,8 @@ add_custom_target(recipe05_examples)
 function(example number)
     add_executable(recipe05_example${number} recipe05.cpp)
     target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe05_example${number} pthread)
     add_dependencies(recipe05_examples recipe05_example${number})
 endfunction(example)
 
 example(01)
-example(02)
+

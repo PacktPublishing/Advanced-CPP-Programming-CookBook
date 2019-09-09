@@ -22,39 +22,57 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <string>
 #include <vector>
-#include <iostream>
 #include <hayai.hpp>
 
-std::vector<int> data;
+std::vector<std::string> data;
 
 BENCHMARK(vector, push_back, 10, 100)
 {
-    data.push_back(42);
+    data.push_back("The answer is: 42");
 }
 
-// [==========] Running 1 benchmark..
+BENCHMARK(vector, emplace_back, 10, 100)
+{
+    data.emplace_back("The answer is: 42");
+}
+
+// [==========] Running 2 benchmarks.
 // [ RUN      ] vector.push_back (10 runs, 100 iterations per run)
-// [     DONE ] vector.push_back (0.044323 ms)
-// [   RUNS   ]        Average time: 4.432 us (~1.692 us)
-//                     Fastest time: 3.222 us (-1.210 us / -27.306 %)
-//                     Slowest time: 7.511 us (+3.079 us / +69.461 %)
-//                      Median time: 3.582 us (1st quartile: 3.330 us ...
+// [     DONE ] vector.push_back (0.200741 ms)
+// ...
+// [ RUN      ] vector.emplace_back (10 runs, 100 iterations per run)
+// [     DONE ] vector.emplace_back (0.166699 ms)
 
-//              Average performance: 225616.49708 runs/s
-//                 Best performance: 310366.23215 runs/s ...
-//                Worst performance: 133138.06417 runs/s ...
-//               Median performance: 279173.64601 runs/s ...
+#endif
 
-// [ITERATIONS]        Average time: 0.044 us (~0.017 us)
-//                     Fastest time: 0.032 us (-0.012 us / -27.306 %)
-//                     Slowest time: 0.075 us (+0.031 us / +69.461 %)
-//                      Median time: 0.036 us (1st quartile: 0.033 us ...
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
 
-//              Average performance: 22561649.70783 iterations/s
-//                 Best performance: 31036623.21539 iterations/s ...
-//                Worst performance: 13313806.41725 iterations/s ...
-//               Median performance: 27917364.60078 iterations/s ...
-// [==========] Ran 1 benchmark..
+volatile int data = 0;
+
+void foo()
+{
+    data++;
+}
+
+int main(void)
+{
+    for (auto i = 0; i < 100000; i++) {
+        foo();
+    }
+}
+
+// Ir       file:function
+// ------------------------------------------------------------
+// 938,046  ???:_dl_lookup_symbol_x [/usr/lib64/ld-2.29.so]
+// 800,000  ???:foo() [/home/user/book/chapter06/build/recipe01_example02]
+// 761,954  ???:do_lookup_x [/usr/lib64/ld-2.29.so]
+// 500,009  ???:main [/home/user/book/chapter06/build/recipe01_example02]
+// 366,967  ???:_dl_relocate_object [/usr/lib64/ld-2.29.so]
+// 132,922  ???:strcmp [/usr/lib64/libc-2.29.so]
+// 118,879  ???:check_match [/usr/lib64/ld-2.29.so]
+// ...
 
 #endif

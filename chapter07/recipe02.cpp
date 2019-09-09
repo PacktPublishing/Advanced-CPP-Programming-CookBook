@@ -23,176 +23,107 @@
 #ifdef EXAMPLE01
 
 int main(void)
-{ }
+{
+    new int;
+}
 
-// objdump -d recipe02_example01
+// =================================================================
+// ==24111==ERROR: LeakSanitizer: detected memory leaks
 
-// 0000000000401000 <_init>:
-// 0000000000401020 <_start>:
-// 000000000040104f <.annobin_init.c>:
-// 0000000000401050 <_dl_relocate_static_pie>:
-// 0000000000401055 <.annobin__dl_relocate_static_pie.end>:
-// 0000000000401060 <deregister_tm_clones>:
-// 0000000000401090 <register_tm_clones>:
-// 00000000004010d0 <__do_global_dtors_aux>:
-// 0000000000401100 <frame_dummy>:
-// 0000000000401106 <main>:
-// 0000000000401120 <__libc_csu_init>:
-// 0000000000401190 <__libc_csu_fini>:
-// 0000000000401198 <_fini>:
-
-// 0000000000401106 <main>:
-//   401106:	55                   	push   %rbp
-//   401107:	48 89 e5             	mov    %rsp,%rbp
-//   40110a:	b8 00 00 00 00       	mov    $0x0,%eax
-//   40110f:	5d                   	pop    %rbp
-//   401110:	c3                   	retq
-//   401111:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
-//   401118:	00 00 00
-//   40111b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+// Direct leak of 4 byte(s) in 1 object(s) allocated from:
+// #0 0x7f5e7329aa27 in operator new(unsigned long) (/lib64/libasan.so.5+0x10fa27)
+// #1 0x401153 in main /home/user/book/chapter07/recipe02.cpp:27
+// #2 0x7f5e72c8ff32 in __libc_start_main (/lib64/libc.so.6+0x23f32)
+//
+// ...
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02
 
-volatile int data[10];
-
 int main(void)
 {
-    for (auto i = 0; i < 10; i++) {
-        data[i] = 42;
-    }
+    auto p = new int;
+    delete p;
+
+    delete p;
 }
 
-// 0000000000401106 <main>:
-//   401106:	55                   	push   %rbp
-//   401107:	48 89 e5             	mov    %rsp,%rbp
-//   40110a:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
-//   401111:	83 7d fc 09          	cmpl   $0x9,-0x4(%rbp)
-//   401115:	7f 16                	jg     40112d <main+0x27>
-//   401117:	8b 45 fc             	mov    -0x4(%rbp),%eax
-//   40111a:	48 98                	cltq
-//   40111c:	c7 04 85 40 40 40 00 	movl   $0x2a,0x404040(,%rax,4)
-//   401123:	2a 00 00 00
-//   401127:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
-//   40112b:	eb e4                	jmp    401111 <main+0xb>
-//   40112d:	b8 00 00 00 00       	mov    $0x0,%eax
-//   401132:	5d                   	pop    %rbp
-//   401133:	c3                   	retq
-//   401134:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
-//   40113b:	00 00 00
-//   40113e:	66 90                	xchg   %ax,%ax
-
-// 0000000000401020 <main>:
-//   401020:	31 c0                	xor    %eax,%eax
-//   401022:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-//   401028:	48 63 d0             	movslq %eax,%rdx
-//   40102b:	83 c0 01             	add    $0x1,%eax
-//   40102e:	c7 04 95 40 40 40 00 	movl   $0x2a,0x404040(,%rdx,4)
-//   401035:	2a 00 00 00
-//   401039:	83 f8 0a             	cmp    $0xa,%eax
-//   40103c:	75 ea                	jne    401028 <main+0x8>
-//   40103e:	31 c0                	xor    %eax,%eax
-//   401040:	c3                   	retq
+// =================================================================
+// ==24328==ERROR: AddressSanitizer: attempting double-free on 0x602000000010 in thread T0:
+// #0 0x7f967d155105 in operator delete(void*, unsigned long) (/lib64/libasan.so.5+0x111105)
+// #1 0x401185 in main /home/user/book/chapter07/recipe02.cpp:50
+// #2 0x7f967cb48f32 in __libc_start_main (/lib64/libc.so.6+0x23f32)
+// #3 0x40109d in _start (/home/user/book/chapter07/build/recipe02_example02+0x40109d)
+//
+// ...
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE03
 
-volatile int data[4];
-
 int main(void)
 {
-    for (auto i = 0; i < 4; i++) {
-        data[i] = 42;
-    }
+    int *p = (int *)42;
+    *p = 0;
 }
 
-// 0000000000401020 <main>:
-//   401020:	c7 05 06 30 00 00 2a 	movl   $0x2a,0x3006(%rip)        # 404030 <data>
-//   401027:	00 00 00
-//   40102a:	31 c0                	xor    %eax,%eax
-//   40102c:	c7 05 fe 2f 00 00 2a 	movl   $0x2a,0x2ffe(%rip)        # 404034 <data+0x4>
-//   401033:	00 00 00
-//   401036:	c7 05 f8 2f 00 00 2a 	movl   $0x2a,0x2ff8(%rip)        # 404038 <data+0x8>
-//   40103d:	00 00 00
-//   401040:	c7 05 f2 2f 00 00 2a 	movl   $0x2a,0x2ff2(%rip)        # 40403c <data+0xc>
-//   401047:	00 00 00
-//   40104a:	c3                   	retq
+// AddressSanitizer:DEADLYSIGNAL
+// =================================================================
+// ==24694==ERROR: AddressSanitizer: SEGV on unknown address 0x00000000002a (pc 0x00000040116a bp 0x0000004011a0 sp 0x7fffe43eb398 T0)
+// ==24694==The signal is caused by a WRITE memory access.
+// ==24694==Hint: address points to the zero page.
+// #0 0x401169 in main /home/user/book/chapter07/recipe02.cpp:82
+// #1 0x7f5c4eb06f32 in __libc_start_main (/lib64/libc.so.6+0x23f32)
+// #2 0x40108d in _start (/home/user/book/chapter07/build/recipe02_example03+0x40108d)
+//
+// ...
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE04
 
-struct mydata {
-    int data[100];
-};
-
-void foo(mydata d)
-{
-    (void) d;
-}
-
 int main(void)
 {
-    mydata d;
-    foo(d);
+    auto p = new int;
+    delete p;
+
+    *p = 0;
 }
 
-// 000000000040110d <main>:
-//   40110d:	55                   	push   %rbp
-//   40110e:	48 89 e5             	mov    %rsp,%rbp
-//   401111:	48 81 ec 90 01 00 00 	sub    $0x190,%rsp
-//   401118:	48 81 ec 90 01 00 00 	sub    $0x190,%rsp
-//   40111f:	48 89 e0             	mov    %rsp,%rax
-//   401122:	48 89 c7             	mov    %rax,%rdi
-//   401125:	48 8d 85 70 fe ff ff 	lea    -0x190(%rbp),%rax
-//   40112c:	ba 32 00 00 00       	mov    $0x32,%edx
-//   401131:	48 89 c6             	mov    %rax,%rsi
-//   401134:	48 89 d1             	mov    %rdx,%rcx
-//   401137:	f3 48 a5             	rep movsq %ds:(%rsi),%es:(%rdi)
-//   40113a:	e8 c7 ff ff ff       	callq  401106 <_Z3foo6mydata>
-//   40113f:	48 81 c4 90 01 00 00 	add    $0x190,%rsp
-//   401146:	b8 00 00 00 00       	mov    $0x0,%eax
-//   40114b:	c9                   	leaveq
-//   40114c:	c3                   	retq
-//   40114d:	0f 1f 00             	nopl   (%rax)
+// =================================================================
+// ==24957==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000010 at pc 0x0000004011c2 bp 0x7ffd87177460 sp 0x7ffd87177450
+// WRITE of size 4 at 0x602000000010 thread T0
+// #0 0x4011c1 in main /home/user/book/chapter07/recipe02.cpp:108
+// #1 0x7fab4d427f32 in __libc_start_main (/lib64/libc.so.6+0x23f32)
+// #2 0x4010ad in _start (/home/user/book/chapter07/build/recipe02_example04+0x4010ad)
+//
+// ...
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE05
 
-struct mydata {
-    int data[100];
-};
-
-void foo(mydata &d)
-{
-    (void) d;
-}
-
 int main(void)
 {
-    mydata d;
-    foo(d);
+    int *p = (int *)42;
+    delete p;
 }
 
-// 0000000000401111 <main>:
-//   401111:	55                   	push   %rbp
-//   401112:	48 89 e5             	mov    %rsp,%rbp
-//   401115:	48 81 ec 90 01 00 00 	sub    $0x190,%rsp
-//   40111c:	48 8d 85 70 fe ff ff 	lea    -0x190(%rbp),%rax
-//   401123:	48 89 c7             	mov    %rax,%rdi
-//   401126:	e8 db ff ff ff       	callq  401106 <_Z3fooR6mydata>
-//   40112b:	b8 00 00 00 00       	mov    $0x0,%eax
-//   401130:	c9                   	leaveq
-//   401131:	c3                   	retq
-//   401132:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
-//   401139:	00 00 00
-//   40113c:	0f 1f 40 00          	nopl   0x0(%rax)
+// =================================================================
+// ==25263==ERROR: AddressSanitizer: SEGV on unknown address 0x00000000001a (pc 0x7f9212dbac7f bp 0x000000000004 sp 0x7fff4e63b100 T0)
+// ==25263==The signal is caused by a WRITE memory access.
+// ==25263==Hint: address points to the zero page.
+// #0 0x7f9212dbac7e (/lib64/libasan.so.5+0x28c7e)
+// #1 0x7f9212ea30cc in operator delete(void*, unsigned long) (/lib64/libasan.so.5+0x1110cc)
+// #2 0x401158 in main /home/user/book/chapter07/recipe02.cpp:172
+// #3 0x7f9212896f32 in __libc_start_main (/lib64/libc.so.6+0x23f32)
+// #4 0x40108d in _start (/home/user/book/chapter07/build/recipe02_example05+0x40108d)
+//
+// ...
 
 #endif

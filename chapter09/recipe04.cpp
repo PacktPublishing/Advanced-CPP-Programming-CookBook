@@ -22,28 +22,11 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
-int main(void)
-{
-#ifndef NDEBUG
-    std::cout << "The answer is: 42\n";
-#endif
-}
-
-// The answer is: 42
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE02
-
-#include <cassert>
+#include <iostream>
 
 int main(void)
 {
-    assert(42 == 0);
+    return 0;
 }
-
-// recipe04_example02: /home/rianquinn/book/chapter07/recipe04.cpp:45: int main(): Assertion `42 == 0' failed.
-// Aborted (core dumped)
 
 #endif
