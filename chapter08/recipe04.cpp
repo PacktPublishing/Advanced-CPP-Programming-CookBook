@@ -36,6 +36,8 @@ class container
     using vector_type = std::vector<T, Allocator>;
     vector_type m_v;
 
+public:
+
     void dump()
     {
         std::cout << "elements: ";
@@ -252,31 +254,306 @@ public:
 
 public:
 
-    template <class ExecutionPolicy>
-    container<T> intersection(ExecutionPolicy &&policy, const container &o)
+    // template <class ExecutionPolicy>
+    // container<T> intersection(ExecutionPolicy &&policy, const container &o)
+    // {
+    //     container<T> result;
+
+    //     std::set_intersection(
+    //         cbegin(), cend(), o.cbegin(), o.cend(), result.begin()
+    //     );
+
+    //     return result;
+    // }
+
+public:
+
+    container &operator=(const container &other)
     {
-        container<T> result;
-
-        std::set_intersection(
-            cbegin(), cend(), o.cbegin(), o.cend(), result.begin()
-        );
-
-        return result;
+        m_v = other.m_v;
+        return *this;
     }
+
+    container &operator=(container &&other) noexcept
+    {
+        m_v = std::move(other.m_v);
+        return *this;
+    }
+
+    container &operator=(std::initializer_list<T> list)
+    {
+        m_v = list;
+        std::sort(m_v.begin(), m_v.end(), compare_type());
+
+        return *this;
+    }
+
+    void assign(size_type count, const T &value)
+    {
+        m_v.assign(count, value);
+        std::sort(m_v.begin(), m_v.end(), compare_type());
+    }
+
+    template <typename Iter>
+    void assign(Iter first, Iter last)
+    {
+        m_v.assign(first, last);
+        std::sort(m_v.begin(), m_v.end(), compare_type());
+    }
+
+    void assign(std::initializer_list<T> list)
+    {
+        m_v.assign(list);
+        std::sort(m_v.begin(), m_v.end(), compare_type());
+    }
+
+    allocator_type get_allocator() const
+    {
+        return m_v.get_allocator();
+    }
+
+    reference at(size_type pos)
+    {
+        return m_v.at(pos);
+    }
+
+    const_reference at(size_type pos) const
+    {
+        return m_v.at(pos);
+    }
+
+    reference front()
+    {
+        return m_v.front();
+    }
+
+	const_reference front() const
+    {
+        return m_v.front();
+    }
+
+    reference back()
+    {
+        return m_v.back();
+    }
+
+	const_reference back() const
+    {
+        return m_v.back();
+    }
+
+    T* data() noexcept
+    {
+        return m_v.data();
+    }
+
+    const T* data() const noexcept
+    {
+        return m_v.data();
+    }
+
+    bool empty() const noexcept
+    {
+        return m_v.empty();
+    }
+
+    size_type size() const noexcept
+    {
+        return m_v.size();
+    }
+
+    size_type max_size() const noexcept
+    {
+        return m_v.max_size();
+    }
+
+    void reserve(size_type new_cap)
+    {
+        m_v.reserve(new_cap);
+    }
+
+	size_type capacity() const noexcept
+    {
+        return m_v.capacity();
+    }
+
+    void shrink_to_fit()
+    {
+        m_v.shrink_to_fit();
+    }
+
+    void clear() noexcept
+    {
+        m_v.clear();
+    }
+
+    void pop_back()
+    {
+        m_v.pop_back();
+    }
+
+    void resize(size_type count)
+    {
+        m_v.resize(count);
+    }
+
+    void resize(size_type count, const value_type &value)
+    {
+        m_v.resize(count, value);
+    }
+
+    void swap(container &other) noexcept
+    {
+        m_v.swap(other.m_v);
+    }
+
+public:
+
+    template <typename O, typename Alloc>
+    friend bool operator==(const container<O, Alloc> &lhs,
+                           const container<O, Alloc> &rhs);
+
+    template <typename O, typename Alloc>
+    friend bool operator!=(const container<O, Alloc> &lhs,
+                           const container<O, Alloc> &rhs);
+
+    template <typename O, typename Alloc>
+    friend bool operator<(const container<O, Alloc> &lhs,
+                          const container<O, Alloc> &rhs);
+
+    template <typename O, typename Alloc>
+    friend bool operator<=(const container<O, Alloc> &lhs,
+                           const container<O, Alloc> &rhs);
+
+    template <typename O, typename Alloc>
+    friend bool operator>(const container<O, Alloc> &lhs,
+                          const container<O, Alloc> &rhs);
+
+    template <typename O, typename Alloc>
+    friend bool operator>=(const container<O, Alloc> &lhs,
+                           const container<O, Alloc> &rhs);
 };
+
+template <typename O, typename Alloc>
+bool operator==(const container<O, Alloc> &lhs,
+                const container<O, Alloc> &rhs)
+{
+    return lhs.m_v == rhs.m_v;
+}
+
+template <typename O, typename Alloc>
+bool operator!=(const container<O, Alloc> &lhs,
+                const container<O, Alloc> &rhs)
+{
+    return lhs.m_v != rhs.m_v;
+}
+
+template <typename O, typename Alloc>
+bool operator<(const container<O, Alloc> &lhs,
+               const container<O, Alloc> &rhs)
+{
+    return lhs.m_v < rhs.m_v;
+}
+
+template <typename O, typename Alloc>
+bool operator<=(const container<O, Alloc> &lhs,
+                const container<O, Alloc> &rhs)
+{
+    return lhs.m_v <= rhs.m_v;
+}
+
+template <typename O, typename Alloc>
+bool operator>(const container<O, Alloc> &lhs,
+               const container<O, Alloc> &rhs)
+{
+    return lhs.m_v > rhs.m_v;
+}
+
+template <typename O, typename Alloc>
+bool operator>=(const container<O, Alloc> &lhs,
+                const container<O, Alloc> &rhs)
+{
+    return lhs.m_v >= rhs.m_v;
+}
 
 int main(void)
 {
-    container<int> c1{4, 42, 15, 23};
-    container<int> c2{8, 23, 16, 42};
+    container<int> c1{4, 42, 15, 8, 23, 16};
 
     // -------------------------------------------------------------------------
 
-    std::cout << "elements: ";
-    for (const auto &elem : c1.intersection(c2)) {
-        std::cout << elem << ' ';
-    }
-    std::cout << '\n';
+    container<int> c2;
+    c2 = c1;
+    c2.dump();
+
+    container<int> c3;
+    c3 = std::move(c2);
+    c3.dump();
+
+    container<int> c4;
+    c4 = {4, 42, 15, 8, 23, 16};
+    c4.dump();
+
+    // -------------------------------------------------------------------------
+
+    container<int> c5;
+    c5.assign(1, 42);
+    c5.dump();
+
+    container<int> c6;
+    c6.assign(c1.cbegin(), c1.cend());
+    c6.dump();
+
+    container<int> c7;
+    c7.assign({4, 42, 15, 8, 23, 16});
+    c7.dump();
+
+    // -------------------------------------------------------------------------
+
+    std::cout << "c1.at(0): " << c1.at(0) << '\n';
+    std::cout << "c1.front(): " << c1.front() << '\n';
+    std::cout << "c1.back(): " << c1.back() << '\n';
+    std::cout << "c1.data()[0]: " << c1.data()[0] << '\n';
+
+    // -------------------------------------------------------------------------
+
+    std::cout << "c1.empty(): " << c1.empty() << '\n';
+    std::cout << "c1.size(): " << c1.size() << '\n';
+    std::cout << "c1.max_size(): " << c1.max_size() << '\n';
+
+    // -------------------------------------------------------------------------
+
+    c1.reserve(42);
+    std::cout << "c1.capacity(): " << c1.capacity() << '\n';
+    c1.shrink_to_fit();
+    std::cout << "c1.capacity(): " << c1.capacity() << '\n';
+
+    // -------------------------------------------------------------------------
+
+    c1.clear();
+    std::cout << "c1.size(): " << c1.size() << '\n';
+    c1.resize(42);
+    std::cout << "c1.size(): " << c1.size() << '\n';
+
+    c1.clear();
+    std::cout << "c1.size(): " << c1.size() << '\n';
+    c1.resize(42, 42);
+    std::cout << "c1.size(): " << c1.size() << '\n';
+
+    // -------------------------------------------------------------------------
+
+    c1.swap(c4);
+    c1.pop_back();
+    c1.dump();
+
+    // -------------------------------------------------------------------------
+
+    std::cout << "==: " << (c1 == c4) << '\n';
+    std::cout << "!=: " << (c1 != c4) << '\n';
+    std::cout << " <: " << (c1 < c4) << '\n';
+    std::cout << "<=: " << (c1 <= c4) << '\n';
+    std::cout << " >: " << (c1 > c4) << '\n';
+    std::cout << ">=: " << (c1 >= c4) << '\n';
 
     // -------------------------------------------------------------------------
 

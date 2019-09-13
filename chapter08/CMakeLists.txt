@@ -83,21 +83,6 @@ function(example number)
     add_executable(recipe04_example${number} recipe04.cpp)
     target_compile_definitions(recipe04_example${number} PRIVATE EXAMPLE${number})
     add_dependencies(recipe04_examples recipe04_example${number})
-    target_link_libraries(recipe04_example${number} pthread)
-endfunction(example)
-
-# example(01)
-
-# ------------------------------------------------------------------------------
-# Recipe 05
-# ------------------------------------------------------------------------------
-
-add_custom_target(recipe05_examples)
-
-function(example number)
-    add_executable(recipe05_example${number} recipe05.cpp)
-    target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number})
-    add_dependencies(recipe05_examples recipe05_example${number})
 endfunction(example)
 
 example(01)

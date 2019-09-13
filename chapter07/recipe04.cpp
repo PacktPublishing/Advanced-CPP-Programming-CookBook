@@ -22,6 +22,8 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <iostream>
+
 int main(void)
 {
 #ifndef NDEBUG

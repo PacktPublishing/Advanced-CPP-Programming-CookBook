@@ -31,7 +31,7 @@
 class the_answer : public std::exception
 {
 public:
-    the_answer() noexcept = default;
+    the_answer() = default;
     const char *what() const noexcept
     {
         return "The answer is: 42";
@@ -63,7 +63,7 @@ class the_answer : public std::exception
     const char *m_str;
 public:
 
-    the_answer(const char *str) noexcept :
+    the_answer(const char *str) :
         m_str{str}
     { }
 
