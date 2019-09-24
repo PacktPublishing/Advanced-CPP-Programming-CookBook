@@ -131,31 +131,30 @@ public:
     }
 
     template<typename... Args>
-    reference emplace_back(Args&&... args)
+    void emplace_back(Args&&... args)
     {
-        auto &&ref = m_v.emplace_back(std::forward<Args>(args)...);
+        m_v.emplace_back(std::forward<Args>(args)...);
         std::sort(m_v.begin(), m_v.end(), compare_type());
 
         dump();
-        return ref;
     }
 
 public:
 
     void insert(const T &value)
     {
-        return push_back(value);
+        push_back(value);
     }
 
     void insert(T &&value)
     {
-        return push_back(std::move(value));
+        push_back(std::move(value));
     }
 
     template<typename... Args>
-    reference emplace(Args&&... args)
+    void emplace(Args&&... args)
     {
-        return emplace_back(std::forward<Args>(args)...);
+        emplace_back(std::forward<Args>(args)...);
     }
 };
 

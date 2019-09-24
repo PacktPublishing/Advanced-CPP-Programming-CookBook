@@ -128,30 +128,29 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-    template <typename... Args>
-    reference emplace_back(Args&&... args)
+    template<typename... Args>
+    void emplace_back(Args&&... args)
     {
-        auto &&ref = m_v.emplace_back(std::forward<Args>(args)...);
+        m_v.emplace_back(std::forward<Args>(args)...);
         std::sort(m_v.begin(), m_v.end(), compare_type());
-        return ref;
     }
 
 public:
 
     void insert(const T &value)
     {
-        return push_back(value);
+        push_back(value);
     }
 
     void insert(T &&value)
     {
-        return push_back(std::move(value));
+        push_back(std::move(value));
     }
 
-    template <typename... Args>
-    reference emplace(Args&&... args)
+    template<typename... Args>
+    void emplace(Args&&... args)
     {
-        return emplace_back(std::forward<Args>(args)...);
+        emplace_back(std::forward<Args>(args)...);
     }
 
 public:
@@ -251,20 +250,6 @@ public:
     {
         return m_v.erase(first, last);
     }
-
-public:
-
-    // template <class ExecutionPolicy>
-    // container<T> intersection(ExecutionPolicy &&policy, const container &o)
-    // {
-    //     container<T> result;
-
-    //     std::set_intersection(
-    //         cbegin(), cend(), o.cbegin(), o.cend(), result.begin()
-    //     );
-
-    //     return result;
-    // }
 
 public:
 

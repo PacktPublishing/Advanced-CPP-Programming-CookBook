@@ -239,13 +239,12 @@ public:
     }
 
     template<typename... Args>
-    reference emplace_back(Args&&... args)
+    void emplace_back(Args&&... args)
     {
-        auto &&ref = m_v.emplace_back(std::forward<Args>(args)...);
+        m_v.emplace_back(std::forward<Args>(args)...);
         std::sort(m_v.begin(), m_v.end(), compare_type());
 
         std::cout << "3\n";
-        return ref;
     }
 };
 
@@ -375,13 +374,12 @@ public:
     }
 
     template<typename... Args>
-    reference emplace_back(Args&&... args)
+    void emplace_back(Args&&... args)
     {
-        auto &&ref = m_v.emplace_back(std::forward<Args>(args)...);
+        m_v.emplace_back(std::forward<Args>(args)...);
         std::sort(m_v.begin(), m_v.end(), compare_type());
 
-        dump();
-        return ref;
+        std::cout << "3\n";
     }
 };
 

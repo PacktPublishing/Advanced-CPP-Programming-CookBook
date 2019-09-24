@@ -30,3 +30,81 @@ int main(void)
 }
 
 #endif
+
+
+// // -----------------------------------------------------------------------------
+// #ifdef EXAMPLE01
+
+// #include <array>
+// #include <memory>
+// #include <iostream>
+
+// template<typename R, typename... ARGS>
+// class hero
+// {
+// public:
+//     virtual ~hero() = default;
+//     virtual R operator()(ARGS...) const = 0;
+// };
+
+// template<
+//     typename T,
+//     typename R, typename... ARGS
+//     >
+// class attack_wrapper : public hero<R, ARGS...>
+// {
+//     std::unique_ptr<T> m_t{std::make_unique<T>()};
+
+// public:
+//     R operator()(ARGS... args) const
+//     {
+//         return m_t->attack(std::forward<ARGS>(args)...);
+//     }
+// };
+
+// class spiderman
+// {
+// public:
+//     bool attack(int x, int) const
+//     {
+//         if (x == 0) {
+//             return true;
+//         }
+
+//         return false;
+//     }
+// };
+
+// class captain_america
+// {
+// public:
+//     bool attack(int, int y) const
+//     {
+//         if (y == 0) {
+//             return true;
+//         }
+
+//         return false;
+//     }
+// };
+
+// int main(void)
+// {
+//     using attack_t = bool(int, int);
+
+//     std::array<std::unique_ptr<hero<attack_t>>, 2> heros {
+//         std::make_unique<attack_wrapper<spiderman, attack_t>>(),
+//         std::make_unique<attack_wrapper<captain_america, attack_t>>()
+//     };
+
+//     for (const auto &h : heros) {
+//         std::cout << h->operator()(1, 0) << '\n';
+//     }
+
+//     return 0;
+// }
+
+// // 0
+// // 1
+
+// #endif
