@@ -30,24 +30,24 @@ class hero
 {
 public:
     virtual ~hero() = default;
-    virtual const char *name() const = 0;
+    virtual bool attack(int, int) const = 0;
 };
 
 class spiderman : public hero
 {
 public:
-    const char *name() const
+    bool attack(int x, int) const override
     {
-        return "Spiderman";
+        return x == 0 ? true : false;
     }
 };
 
 class captain_america : public hero
 {
 public:
-    const char *name() const
+    bool attack(int, int y) const override
     {
-        return "Captin America";
+        return y == 0 ? true : false;
     }
 };
 
@@ -59,203 +59,13 @@ int main(void)
     };
 
     for (const auto &h : heros) {
-        std::cout << h->name() << '\n';
+        std::cout << h->attack(0, 42) << '\n';
     }
 
     return 0;
 }
 
-// Spiderman
-// Captin America
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE02
-
-#include <iostream>
-
-class spiderman
-{
-public:
-    const char *name() const
-    {
-        return "Spiderman";
-    }
-};
-
-class captain_america
-{
-public:
-    const char *name() const
-    {
-        return "Captin America";
-    }
-};
-
-template<typename T>
-auto name(const T &t)
-{
-    return t.name();
-}
-
-int main(void)
-{
-    std::cout << name(spiderman{}) << '\n';
-    std::cout << name(captain_america{}) << '\n';
-
-    return 0;
-}
-
-// Spiderman
-// Captin America
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE03
-
-#include <array>
-#include <memory>
-#include <iostream>
-
-class hero
-{
-public:
-    virtual ~hero() = default;
-    virtual const char *name() const = 0;
-};
-
-template<typename T>
-class delegate : public hero
-{
-    std::unique_ptr<T> m_t{std::make_unique<T>()};
-
-public:
-    const char *name() const
-    {
-        return m_t->name();
-    }
-};
-
-class spiderman
-{
-public:
-    const char *name() const
-    {
-        return "Spiderman";
-    }
-};
-
-class captain_america
-{
-public:
-    const char *name() const
-    {
-        return "Captin America";
-    }
-};
-
-int main(void)
-{
-    std::array<std::unique_ptr<hero>, 2> heros {
-        std::make_unique<delegate<spiderman>>(),
-        std::make_unique<delegate<captain_america>>()
-    };
-
-    for (const auto &h : heros) {
-        std::cout << h->name() << '\n';
-    }
-
-    return 0;
-}
-
-// Spiderman
-// Captin America
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE04
-
-#include <array>
-#include <memory>
-#include <iostream>
-
-template<typename T>
-class delegate_helper
-{
-    T m_t;
-
-public:
-    const char *name() const
-    {
-        return m_t.name();
-    }
-};
-
-class delegate
-{
-    void *m_t{};
-
-    template<typename T>
-    T *t()
-    {
-        return static_cast<T *>(m_t);
-    }
-
-public:
-
-    template<typename T>
-    delegate()
-    {
-        m_t = new T;
-    }
-
-    ~delegate()
-    {
-        delete t<T>();
-    }
-
-    const char *name() const
-    {
-        return t()->name();
-    }
-};
-
-class spiderman
-{
-public:
-    const char *name() const
-    {
-        return "Spiderman";
-    }
-};
-
-class captain_america
-{
-public:
-    const char *name() const
-    {
-        return "Captin America";
-    }
-};
-
-int main(void)
-{
-    std::array<delegate, 2> heros {
-        delegate<spiderman>(),
-        delegate<captain_america>()
-    };
-
-    for (const auto &h : heros) {
-        std::cout << h.name() << '\n';
-    }
-
-    return 0;
-}
-
-// Spiderman
-// Captin America
+// 1
+// 0
 
 #endif

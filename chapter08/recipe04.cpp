@@ -114,7 +114,7 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-public:
+private:
 
     void push_back(const T &value)
     {
@@ -168,30 +168,17 @@ public:
 
 public:
 
-    using iterator = typename vector_type::iterator;
     using const_iterator = typename vector_type::const_iterator;
-    using reverse_iterator = typename vector_type::reverse_iterator;
     using const_reverse_iterator = typename vector_type::const_reverse_iterator;
-
-    iterator begin() noexcept
-    {
-        return m_v.begin();
-    }
 
     const_iterator begin() const noexcept
     {
-        std::cout << "fdafdfdsa";
         return m_v.begin();
     }
 
     const_iterator cbegin() const noexcept
     {
         return m_v.cbegin();
-    }
-
-    iterator end() noexcept
-    {
-        return m_v.end();
     }
 
     const_iterator end() const noexcept
@@ -204,11 +191,6 @@ public:
         return m_v.cend();
     }
 
-    reverse_iterator rbegin() noexcept
-    {
-        return m_v.rbegin();
-    }
-
     const_reverse_iterator rbegin() const noexcept
     {
         return m_v.crbegin();
@@ -217,11 +199,6 @@ public:
     const_reverse_iterator crbegin() const noexcept
     {
         return m_v.crbegin();
-    }
-
-    reverse_iterator rend() noexcept
-    {
-        return m_v.rend();
     }
 
     const_reverse_iterator rend() const noexcept
@@ -241,12 +218,12 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-    iterator erase(const_iterator pos)
+    const_iterator erase(const_iterator pos)
     {
         return m_v.erase(pos);
     }
 
-    iterator erase(const_iterator first, const_iterator last)
+    const_iterator erase(const_iterator first, const_iterator last)
     {
         return m_v.erase(first, last);
     }
@@ -276,7 +253,6 @@ public:
     void assign(size_type count, const T &value)
     {
         m_v.assign(count, value);
-        std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
     template <typename Iter>
@@ -297,19 +273,9 @@ public:
         return m_v.get_allocator();
     }
 
-    reference at(size_type pos)
-    {
-        return m_v.at(pos);
-    }
-
     const_reference at(size_type pos) const
     {
         return m_v.at(pos);
-    }
-
-    reference front()
-    {
-        return m_v.front();
     }
 
 	const_reference front() const
@@ -317,19 +283,9 @@ public:
         return m_v.front();
     }
 
-    reference back()
-    {
-        return m_v.back();
-    }
-
 	const_reference back() const
     {
         return m_v.back();
-    }
-
-    T* data() noexcept
-    {
-        return m_v.data();
     }
 
     const T* data() const noexcept
@@ -498,7 +454,7 @@ int main(void)
     std::cout << "c1.at(0): " << c1.at(0) << '\n';
     std::cout << "c1.front(): " << c1.front() << '\n';
     std::cout << "c1.back(): " << c1.back() << '\n';
-    std::cout << "c1.data()[0]: " << c1.data()[0] << '\n';
+    std::cout << "c1.data(): " << c1.data() << '\n';
 
     // -------------------------------------------------------------------------
 

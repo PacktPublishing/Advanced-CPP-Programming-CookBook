@@ -112,7 +112,7 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-public:
+private:
 
     void push_back(const T &value)
     {
@@ -269,7 +269,7 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-public:
+private:
 
     void push_back(const T &value)
     {
@@ -323,30 +323,17 @@ public:
 
 public:
 
-    using iterator = typename vector_type::iterator;
     using const_iterator = typename vector_type::const_iterator;
-    using reverse_iterator = typename vector_type::reverse_iterator;
     using const_reverse_iterator = typename vector_type::const_reverse_iterator;
-
-    iterator begin() noexcept
-    {
-        return m_v.begin();
-    }
 
     const_iterator begin() const noexcept
     {
-        std::cout << "fdafdfdsa";
         return m_v.begin();
     }
 
     const_iterator cbegin() const noexcept
     {
         return m_v.cbegin();
-    }
-
-    iterator end() noexcept
-    {
-        return m_v.end();
     }
 
     const_iterator end() const noexcept
@@ -359,11 +346,6 @@ public:
         return m_v.cend();
     }
 
-    reverse_iterator rbegin() noexcept
-    {
-        return m_v.rbegin();
-    }
-
     const_reverse_iterator rbegin() const noexcept
     {
         return m_v.crbegin();
@@ -372,11 +354,6 @@ public:
     const_reverse_iterator crbegin() const noexcept
     {
         return m_v.crbegin();
-    }
-
-    reverse_iterator rend() noexcept
-    {
-        return m_v.rend();
     }
 
     const_reverse_iterator rend() const noexcept
@@ -396,12 +373,12 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-    iterator erase(const_iterator pos)
+    const_iterator erase(const_iterator pos)
     {
         return m_v.erase(pos);
     }
 
-    iterator erase(const_iterator first, const_iterator last)
+    const_iterator erase(const_iterator first, const_iterator last)
     {
         return m_v.erase(first, last);
     }
@@ -414,17 +391,12 @@ int main(void)
     // -------------------------------------------------------------------------
 
     std::cout << "elements: ";
-    for (auto iter = c.begin(); iter != c.end(); iter++) {
-        std::cout << *iter << ' ';
+    for (const auto &elem : c) {
+        std::cout << elem << ' ';
     }
     std::cout << '\n';
 
-    const auto iterb = c.begin();
-    const auto itere = c.end();
-
-    if (iterb == itere) {
-        std::cout << "impossible\n";
-    }
+    // -------------------------------------------------------------------------
 
     std::cout << "elements: ";
     for (auto iter = c.cbegin(); iter != c.cend(); iter++) {
@@ -433,19 +405,6 @@ int main(void)
     std::cout << '\n';
 
     // -------------------------------------------------------------------------
-
-    std::cout << "elements: ";
-    for (auto iter = c.rbegin(); iter != c.rend(); iter++) {
-        std::cout << *iter << ' ';
-    }
-    std::cout << '\n';
-
-    const auto iterrb = c.rbegin();
-    const auto iterre = c.rend();
-
-    if (iterrb == iterre) {
-        std::cout << "impossible\n";
-    }
 
     std::cout << "elements: ";
     for (auto iter = c.crbegin(); iter != c.crend(); iter++) {
@@ -458,16 +417,16 @@ int main(void)
     c.emplace(c.cend(), 1);
 
     std::cout << "elements: ";
-    for (auto iter = c.begin(); iter != c.end(); iter++) {
-        std::cout << *iter << ' ';
+    for (const auto &elem : c) {
+        std::cout << elem << ' ';
     }
     std::cout << '\n';
 
     c.erase(c.cbegin());
 
     std::cout << "elements: ";
-    for (auto iter = c.begin(); iter != c.end(); iter++) {
-        std::cout << *iter << ' ';
+    for (const auto &elem : c) {
+        std::cout << elem << ' ';
     }
     std::cout << '\n';
 
@@ -476,8 +435,8 @@ int main(void)
     c.erase(c.cbegin(), c.cend());
 
     std::cout << "elements: ";
-    for (auto iter = c.begin(); iter != c.end(); iter++) {
-        std::cout << *iter << ' ';
+    for (const auto &elem : c) {
+        std::cout << elem << ' ';
     }
     std::cout << '\n';
 

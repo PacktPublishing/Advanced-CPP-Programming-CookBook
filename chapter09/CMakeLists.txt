@@ -41,9 +41,6 @@ function(example number)
 endfunction(example)
 
 example(01)
-example(02)
-example(03)
-example(04)
 
 # ------------------------------------------------------------------------------
 # Recipe 02
@@ -87,46 +84,6 @@ function(example number)
 endfunction(example)
 
 example(01)
-
-# ------------------------------------------------------------------------------
-# Recipe 05
-# ------------------------------------------------------------------------------
-
-add_custom_target(recipe05_examples)
-
-function(example number)
-    add_executable(recipe05_example${number} recipe05.cpp)
-    target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number})
-    add_dependencies(recipe05_examples recipe05_example${number})
-endfunction(example)
-
-example(01)
-
-# ------------------------------------------------------------------------------
-# Recipe 06
-# ------------------------------------------------------------------------------
-
-add_custom_target(recipe06_examples)
-
-function(example number)
-    add_executable(recipe06_example${number} recipe06.cpp)
-    target_compile_definitions(recipe06_example${number} PRIVATE EXAMPLE${number})
-    add_dependencies(recipe06_examples recipe06_example${number})
-endfunction(example)
-
-example(01)
-
-# ------------------------------------------------------------------------------
-# Recipe 07
-# ------------------------------------------------------------------------------
-
-add_custom_target(recipe07_examples)
-
-function(example number)
-    add_executable(recipe07_example${number} recipe07.cpp)
-    target_compile_definitions(recipe07_example${number} PRIVATE EXAMPLE${number})
-    add_dependencies(recipe07_examples recipe07_example${number})
-endfunction(example)
-
-example(01)
-
+example(02)
+example(03)
+example(04)

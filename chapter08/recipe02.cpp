@@ -112,7 +112,7 @@ public:
         std::sort(m_v.begin(), m_v.end(), compare_type());
     }
 
-public:
+private:
 
     void push_back(const T &value)
     {
