@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/user/book/chapter08/recipe01.cpp
+vector
+-
+algorithm
+-
+iostream
+-
+vector
+-
+algorithm
+-
+iostream
+-
+vector
+-
+algorithm
+-
+iostream
+-
+

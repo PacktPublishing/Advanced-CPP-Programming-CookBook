@@ -22,46 +22,42 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <array>
+#include <atomic>
+#include <thread>
 #include <iostream>
 
-class spiderman
-{
-public:
-    bool attack(int x, int) const
-    {
-        return x == 0 ? true : false;
-    }
-};
+std::atomic<int> count;
 
-class captain_america
+void
+inc(std::shared_ptr<int> val)
 {
-public:
-    bool attack(int, int y) const
-    {
-        return y == 0 ? true : false;
-    }
-};
+    count += *val;
+}
 
-template<typename T>
-auto attack(const T &t, int x, int y)
+void
+execute_threads(std::unique_ptr<int> ptr)
 {
-    if (t.attack(x, y)) {
-        std::cout << "hero won fight\n";
+    std::array<std::thread, 42> threads;
+    auto shared = std::shared_ptr<int>(std::move(ptr));
+
+    for (auto &thread : threads) {
+        thread = std::thread{inc, shared};
     }
-    else {
-        std::cout << "hero lost the fight :(\n";
+
+    for (auto &thread : threads) {
+        thread.join();
     }
 }
 
 int main(void)
 {
-    attack(spiderman{}, 0, 42);
-    attack(captain_america{}, 0, 42);
+    execute_threads(std::make_unique<int>(1));
+    std::cout << "count: " << count << '\n';
 
     return 0;
 }
 
-// hero won fight
-// hero lost the fight :(
+// count: 42
 
 #endif

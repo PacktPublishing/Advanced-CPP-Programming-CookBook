@@ -22,46 +22,73 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <memory>
 #include <iostream>
 
-class spiderman
+class base
 {
 public:
-    bool attack(int x, int) const
-    {
-        return x == 0 ? true : false;
-    }
+    base() = default;
+    virtual ~base() = default;
 };
 
-class captain_america
+class subclass : public base
 {
 public:
-    bool attack(int, int y) const
-    {
-        return y == 0 ? true : false;
-    }
+    subclass() = default;
+    ~subclass() override = default;
 };
 
-template<typename T>
-auto attack(const T &t, int x, int y)
+void foo(base *b)
 {
-    if (t.attack(x, y)) {
-        std::cout << "hero won fight\n";
-    }
-    else {
-        std::cout << "hero lost the fight :(\n";
+    if (dynamic_cast<subclass *>(b)) {
+        std::cout << "downcast successful!!\n";
     }
 }
 
 int main(void)
 {
-    attack(spiderman{}, 0, 42);
-    attack(captain_america{}, 0, 42);
+    auto ptr = std::make_unique<subclass>();
+    foo(ptr.get());
 
     return 0;
 }
 
-// hero won fight
-// hero lost the fight :(
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+#include <memory>
+#include <iostream>
+
+class base
+{
+public:
+    base() = default;
+    virtual ~base() = default;
+};
+
+class subclass : public base
+{
+public:
+    subclass() = default;
+    ~subclass() override = default;
+};
+
+void foo(std::shared_ptr<base> b)
+{
+    if (std::dynamic_pointer_cast<subclass>(b)) {
+        std::cout << "downcast successful!!\n";
+    }
+}
+
+int main(void)
+{
+    auto ptr = std::make_shared<subclass>();
+    foo(ptr);
+
+    return 0;
+}
 
 #endif

@@ -22,46 +22,21 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
-#include <iostream>
-
-class spiderman
-{
-public:
-    bool attack(int x, int) const
-    {
-        return x == 0 ? true : false;
-    }
-};
-
-class captain_america
-{
-public:
-    bool attack(int, int y) const
-    {
-        return y == 0 ? true : false;
-    }
-};
-
-template<typename T>
-auto attack(const T &t, int x, int y)
-{
-    if (t.attack(x, y)) {
-        std::cout << "hero won fight\n";
-    }
-    else {
-        std::cout << "hero lost the fight :(\n";
-    }
-}
+#include <memory>
 
 int main(void)
 {
-    attack(spiderman{}, 0, 42);
-    attack(captain_america{}, 0, 42);
-
-    return 0;
+    auto ptr = std::make_unique<int>();
 }
 
-// hero won fight
-// hero lost the fight :(
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+int main(void)
+{
+    auto ptr = new int;
+}
 
 #endif

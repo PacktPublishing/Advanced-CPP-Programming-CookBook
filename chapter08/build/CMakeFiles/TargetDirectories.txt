@@ -1,0 +1,13 @@
+/home/user/book/chapter08/build/CMakeFiles/rebuild_cache.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe04_example01.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe01_example02.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe01_example03.dir
+/home/user/book/chapter08/build/CMakeFiles/edit_cache.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe02_example01.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe03_example02.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe03_examples.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe02_examples.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe01_example01.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe03_example01.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe01_examples.dir
+/home/user/book/chapter08/build/CMakeFiles/recipe04_examples.dir

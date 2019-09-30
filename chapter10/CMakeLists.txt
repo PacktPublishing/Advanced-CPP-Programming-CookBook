@@ -37,10 +37,18 @@ add_custom_target(recipe01_examples)
 function(example number)
     add_executable(recipe01_example${number} recipe01.cpp)
     target_compile_definitions(recipe01_example${number} PRIVATE EXAMPLE${number})
+    target_link_libraries(recipe01_example${number} pthread)
     add_dependencies(recipe01_examples recipe01_example${number})
 endfunction(example)
 
 example(01)
+example(02)
+example(03)
+example(04)
+example(05)
+example(06)
+example(07)
+example(08)
 
 # ------------------------------------------------------------------------------
 # Recipe 02
@@ -51,6 +59,7 @@ add_custom_target(recipe02_examples)
 function(example number)
     add_executable(recipe02_example${number} recipe02.cpp)
     target_compile_definitions(recipe02_example${number} PRIVATE EXAMPLE${number})
+    target_link_libraries(recipe02_example${number} pthread)
     add_dependencies(recipe02_examples recipe02_example${number})
 endfunction(example)
 
@@ -69,6 +78,9 @@ function(example number)
 endfunction(example)
 
 example(01)
+example(02)
+example(03)
+example(04)
 
 # ------------------------------------------------------------------------------
 # Recipe 04
@@ -84,6 +96,7 @@ function(example number)
 endfunction(example)
 
 example(01)
+example(02)
 
 # ------------------------------------------------------------------------------
 # Recipe 05
@@ -95,6 +108,8 @@ function(example number)
     add_executable(recipe05_example${number} recipe05.cpp)
     target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number})
     add_dependencies(recipe05_examples recipe05_example${number})
+    target_link_options(recipe05_example${number} PRIVATE -static)
 endfunction(example)
 
 example(01)
+example(02)
