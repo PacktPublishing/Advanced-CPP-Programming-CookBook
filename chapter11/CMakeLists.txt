@@ -57,6 +57,7 @@ endfunction(example)
 example(01)
 example(02)
 example(03)
+example(04)
 
 # ------------------------------------------------------------------------------
 # Recipe 03
@@ -72,6 +73,8 @@ endfunction(example)
 
 example(01)
 example(02)
+example(03)
+example(04)
 
 # ------------------------------------------------------------------------------
 # Recipe 04
