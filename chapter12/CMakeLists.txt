@@ -41,6 +41,11 @@ function(example number)
 endfunction(example)
 
 example(01)
+example(02)
+example(03)
+example(04)
+example(05)
+example(06)
 
 # ------------------------------------------------------------------------------
 # Recipe 02
