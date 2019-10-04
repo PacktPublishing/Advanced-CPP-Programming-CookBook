@@ -41,13 +41,10 @@ function(example number)
 endfunction(example)
 
 example(01)
-<<<<<<< HEAD
-=======
 example(02)
 example(03)
 example(04)
 example(05)
->>>>>>> a8a778d... chapter 11 updates
 
 # ------------------------------------------------------------------------------
 # Recipe 02
@@ -62,12 +59,9 @@ function(example number)
 endfunction(example)
 
 example(01)
-<<<<<<< HEAD
 example(02)
 example(03)
 example(04)
-=======
->>>>>>> a8a778d... chapter 11 updates
 
 # ------------------------------------------------------------------------------
 # Recipe 03
@@ -82,12 +76,9 @@ function(example number)
 endfunction(example)
 
 example(01)
-<<<<<<< HEAD
 example(02)
 example(03)
 example(04)
-=======
->>>>>>> a8a778d... chapter 11 updates
 
 # ------------------------------------------------------------------------------
 # Recipe 04
@@ -116,3 +107,4 @@ function(example number)
 endfunction(example)
 
 example(01)
+example(02)

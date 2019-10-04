@@ -22,8 +22,101 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <iostream>
+
+class base
+{
+public:
+    virtual void foo() = 0;
+
+    void common()
+    {
+        std::cout << "common\n";
+    }
+};
+
+class subclass1 : public base
+{
+public:
+    void foo() override
+    {
+        std::cout << "subclass1 specific\n";
+    }
+};
+
+class subclass2 : public base
+{
+public:
+    void foo() override
+    {
+        std::cout << "subclass2 specific\n";
+    }
+};
+
 int main(void)
 {
+    subclass1 s1;
+    subclass2 s2;
+
+    base *b1 = &s1;
+    base *b2 = &s2;
+
+    b1->foo();
+    b1->common();
+
+    b2->foo();
+    b2->common();
 }
 
 #endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+#include <iostream>
+
+template<typename T>
+class base
+{
+public:
+    void foo()
+    { static_cast<T *>(this)->foo(); }
+
+    void common()
+    {
+        std::cout << "common\n";
+    }
+};
+
+class subclass1 : public base<subclass1>
+{
+public:
+    void foo()
+    {
+        std::cout << "subclass1 specific\n";
+    }
+};
+
+class subclass2 : public base<subclass2>
+{
+public:
+    void foo()
+    {
+        std::cout << "subclass2 specific\n";
+    }
+};
+
+int main(void)
+{
+    base<subclass1> b1;
+    base<subclass2> b2;
+
+    b1.foo();
+    b1.common();
+
+    b2.foo();
+    b2.common();
+}
+
+#endif
+ 

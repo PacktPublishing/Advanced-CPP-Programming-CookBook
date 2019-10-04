@@ -22,8 +22,61 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include <vector>
+#include <iostream>
+
+class observer
+{
+public:
+    virtual void trigger() = 0;
+};
+
+class alarm
+{
+    std::vector<observer *> m_observers;
+
+public:
+    void trigger()
+    {
+        for (const auto &o : m_observers) {
+            o->trigger();
+        }
+    }
+
+    void add_phone(observer *o)
+    {
+        m_observers.push_back(o);
+    }
+};
+
+class moms_phone : public observer
+{
+public:
+    void trigger() override
+    {
+        std::cout << "mom's phone received alarm notification\n";
+    }
+};
+
+class dads_phone : public observer
+{
+public:
+    void trigger() override
+    {
+        std::cout << "dad's phone received alarm notification\n";
+    }
+};
+
 int main(void)
 {
+    alarm a;
+    moms_phone mp;
+    dads_phone dp;
+
+    a.add_phone(&mp);
+    a.add_phone(&dp);
+
+    a.trigger();
 }
 
 #endif

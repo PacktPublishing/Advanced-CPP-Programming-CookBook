@@ -19,11 +19,180 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <iostream>
+
+template <typename T>
+constexpr auto type_info()
+{
+    std::string_view name{__PRETTY_FUNCTION__};
+    name.remove_prefix(37);
+    name.remove_suffix(1);
+    return name;
+}
+
+#define show_type(a)                            \
+    std::cout << #a                             \
+              << " = "                          \
+              << type_info<decltype(a)>()       \
+              << '\n';                          \
+
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+template<typename T>
+void foo(T t)
+{
+    show_type(t);
+}
+
 int main(void)
 {
+    int i = 42;
+
+    foo(i);
+    foo(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+template<typename T>
+void foo(const T &t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    int i = 42;
+
+    foo(i);
+    foo(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE03
+
+template<typename T>
+void foo(T &t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    int i = 42;
+
+    foo(i);
+    // foo(42); // compiler error
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE04
+
+template<typename T>
+void foo(T &&t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    int i = 42;
+
+    foo(i);
+    foo(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE05
+
+void foo(int &&t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    int i = 42;
+
+    foo(std::move(i));
+    foo(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE06
+
+template<typename T>
+void foo(T &&t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    auto &&i = 42;
+    foo<decltype(i)>(std::move(i));
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE07
+
+template<typename T>
+void foo(T &&t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    const int i = 42;
+    foo(i);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE08
+
+template<typename T>
+void foo(const T &&t)
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    const int i = 42;
+    foo(std::move(i));
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE09
+
+template<typename T, size_t N>
+void foo(T (&&t)[N])
+{
+    show_type(t);
+}
+
+int main(void)
+{
+    foo({4, 8, 15, 16, 23, 42});
 }
 
 #endif

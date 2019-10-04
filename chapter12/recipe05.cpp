@@ -19,11 +19,149 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <iostream>
+
+template <typename T>
+constexpr auto type_info()
+{
+    std::string_view name{__PRETTY_FUNCTION__};
+    name.remove_prefix(37);
+    name.remove_suffix(1);
+    return name;
+}
+
+#define show_type(a)                            \
+    std::cout << #a                             \
+              << " = "                          \
+              << type_info<decltype(a)>()       \
+              << '\n';                          \
+
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+template<typename T>
+class the_answer
+{
+
+public:
+    the_answer(T t)
+    {
+        show_type(t);
+    }
+};
+
+the_answer(int) -> the_answer<unsigned>;
+
 int main(void)
 {
+    the_answer is(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+template<typename T>
+class the_answer
+{
+
+public:
+    the_answer(T t)
+    {
+        show_type(t);
+    }
+};
+
+the_answer(const char *) -> the_answer<std::string>;
+
+int main(void)
+{
+    the_answer is("The answer is: 42");
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE03
+
+template<typename RET, typename... ARGS>
+class the_answer
+{
+
+public:
+    the_answer(RET (*func)(ARGS...))
+    {
+        show_type(func);
+    }
+};
+
+int ask_universe(int)
+{
+    return 42;
+}
+
+int main(void)
+{
+    the_answer is(ask_universe);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE04
+
+template<typename RET, typename... ARGS>
+class the_answer
+{
+
+public:
+    the_answer(RET (*func)(ARGS...))
+    {
+        show_type(func);
+    }
+};
+
+int ask_universe(int)
+{
+    return 42;
+}
+
+int main(void)
+{
+    the_answer<int, int> is(ask_universe);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE05
+
+template<typename>
+class the_answer;
+
+template<typename RET, typename... ARGS>
+class the_answer<RET(ARGS...)>
+{
+
+public:
+    the_answer(RET (*func)(ARGS...))
+    {
+        show_type(func);
+    }
+};
+
+template<typename RET, typename... ARGS>
+the_answer(RET(*)(ARGS...)) -> the_answer<RET(ARGS...)>;
+
+int ask_universe(int)
+{
+    return 42;
+}
+
+int main(void)
+{
+    the_answer<int(int)> is(ask_universe);
 }
 
 #endif

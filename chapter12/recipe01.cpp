@@ -86,16 +86,6 @@ int main(void)
     show_type(i1);
     show_type(i2);
     show_type(i3);
-
-    const auto ic1 = i;
-    // const auto &ic2 = i;         // compile error
-    volatile auto iv1 = i;
-    // volatile auto &iv2 = i;      // compile error
-
-    show_type(ic1);
-    // show_type(ic2);
-    show_type(iv1);
-    // show_type(iv2);
 }
 
 #endif
@@ -114,16 +104,6 @@ int main(void)
     show_type(i1);
     show_type(i2);
     show_type(i3);
-
-    const auto ic1 = i;
-    const auto &ic2 = i;
-    volatile auto iv1 = i;
-    // volatile auto &iv2 = i;      // compile error
-
-    show_type(ic1);
-    show_type(ic2);
-    show_type(iv1);
-    // show_type(iv2);
 }
 
 #endif
@@ -142,30 +122,12 @@ int main(void)
     show_type(i1);
     show_type(i2);
     show_type(i3);
-
-    const auto ic1 = i;
-    // const auto &ic2 = i;         // compile error
-    volatile auto iv1 = i;
-    volatile auto &iv2 = i;
-
-    show_type(ic1);
-    // show_type(ic2);
-    show_type(iv1);
-    show_type(iv2);
 }
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE06
-
-#define valueness(a)                                    \
-    if (std::is_rvalue_reference<decltype(a)>{}) {      \
-        std::cout << #a << " is an r-value\n";          \
-    }                                                   \
-    else {                                              \
-        std::cout << #a << " is an l-value\n";          \
-    }
 
 int main(void)
 {
@@ -174,13 +136,16 @@ int main(void)
     auto i1 = i;
     auto &i2 = i;
     auto &&i3 = i;
-    auto &&i4 = 42;
 
-    valueness(i);
-    valueness(i1);
-    valueness(i2);
-    valueness(i3);
-    valueness(i4);
+    show_type(i1);
+    show_type(i2);
+    show_type(i3);
+
+    auto c1 = 42;
+    auto &&c2 = 42;
+
+    show_type(c1);
+    show_type(c2);
 }
 
 #endif

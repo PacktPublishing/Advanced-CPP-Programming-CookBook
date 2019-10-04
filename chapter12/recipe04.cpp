@@ -19,11 +19,180 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <iostream>
+
+template <typename T>
+constexpr auto type_info()
+{
+    std::string_view name{__PRETTY_FUNCTION__};
+    name.remove_prefix(37);
+    name.remove_suffix(1);
+    return name;
+}
+
+#define show_type(a)                            \
+    std::cout << #a                             \
+              << " = "                          \
+              << type_info<decltype(a)>()       \
+              << '\n';                          \
+
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+template<typename T>
+class the_answer
+{
+
+public:
+    the_answer(T t)
+    {
+        show_type(t);
+    }
+};
+
 int main(void)
 {
+    the_answer<int> is_1(42);
+    the_answer is_2(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+template<typename T>
+class the_answer
+{
+
+public:
+    the_answer(const T &t)
+    {
+        show_type(t);
+    }
+};
+
+int main(void)
+{
+    int i = 42;
+
+    the_answer is_1(i);
+    the_answer is_2(42);
+}
+
+#endif
+
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE03
+
+template<typename T>
+class the_answer
+{
+
+public:
+    the_answer(T &&t)
+    {
+        show_type(t);
+    }
+};
+
+int main(void)
+{
+    int i = 42;
+
+    the_answer is_1(std::move(i));
+    the_answer is_2(42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE04
+
+template<typename T>
+class the_answer
+{
+
+public:
+    the_answer(size_t size, T &&t)
+    {
+        show_type(t);
+    }
+};
+
+int main(void)
+{
+    int i = 42;
+
+    the_answer is_1(42, std::move(i));
+    the_answer is_2(42, 42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE05
+
+template<typename T, typename U>
+class the_answer
+{
+
+public:
+    the_answer(const T &t, U &&u)
+    {
+        show_type(t);
+        show_type(u);
+    }
+};
+
+int main(void)
+{
+    the_answer is("The answer is: ", 42);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE06
+
+template<typename T, typename U>
+class the_answer
+{
+
+public:
+    the_answer(U &&u, const T &t)
+    {
+        show_type(t);
+        show_type(u);
+    }
+};
+
+int main(void)
+{
+    the_answer is(42, "The answer is: ");
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE07
+
+template<typename T, typename U>
+class the_answer
+{
+
+public:
+    the_answer(const T &t, U &&u)
+    {
+        show_type(t);
+        show_type(u);
+    }
+};
+
+int main(void)
+{
+    the_answer<const char *, int> is("The answer is: ", 42);
 }
 
 #endif

@@ -19,11 +19,93 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <iostream>
+
+template <typename T>
+constexpr auto type_info()
+{
+    std::string_view name{__PRETTY_FUNCTION__};
+    name.remove_prefix(37);
+    name.remove_suffix(1);
+    return name;
+}
+
+#define show_type(a)                            \
+    std::cout << #a                             \
+              << " = "                          \
+              << type_info<decltype(a)>()       \
+              << '\n';                          \
+
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
 int main(void)
 {
+    decltype(auto) i1 = 42;
+    decltype(auto) i2{42};
+
+    show_type(i1);
+    show_type(i2);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+int main(void)
+{
+    decltype(auto) i1 = 42;
+    const decltype(auto) i2 = 42;
+    volatile decltype(auto) i3 = 42;
+    const volatile decltype(auto) i4 = 42;
+
+    show_type(i1);
+    show_type(i2);
+    show_type(i3);
+    show_type(i4);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE03
+
+int main(void)
+{
+    int i = 42;
+
+    int i1 = i;
+    int &i2 = i;
+    int &&i3 = std::move(i);
+
+    show_type(i1);
+    show_type(i2);
+    show_type(i3);
+
+    auto a1 = i1;
+    auto a2 = i2;
+    auto a3 = std::move(i3);
+
+    show_type(a1);
+    show_type(a2);
+    show_type(a3);
+
+    decltype(auto) d1 = i1;
+    decltype(auto) d2 = i2;
+    decltype(auto) d3 = std::move(i3);
+
+    show_type(d1);
+    show_type(d2);
+    show_type(d3);
+
+    auto a4 = i1;
+    auto &a5 = i2;
+    auto &&a6 = std::move(i3);
+
+    show_type(a4);
+    show_type(a5);
+    show_type(a6);
 }
 
 #endif

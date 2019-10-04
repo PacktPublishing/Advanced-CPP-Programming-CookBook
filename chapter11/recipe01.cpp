@@ -37,8 +37,6 @@ public:
 class know_it_all
 {
 public:
-    know_it_all() = default;
-
     auto ask_question(const char *question)
     {
         (void) question;
@@ -68,8 +66,6 @@ public:
         m_answer{std::move(str)}
     { }
 
-    virtual ~answer() = default;
-
     static inline auto make_answer(std::string str)
     { return answer(str); }
 };
@@ -80,8 +76,6 @@ template<factory_t factory = answer::make_answer>
 class know_it_all
 {
 public:
-    know_it_all() = default;
-
     auto ask_question(const char *question)
     {
         (void) question;
@@ -112,8 +106,6 @@ public:
         m_answer{std::move(str)}
     { }
 
-    virtual ~answer() = default;
-
     static inline auto make_answer(std::string str)
     { return answer(str); }
 };
@@ -142,8 +134,6 @@ template<factory_t factory = answer::make_answer>
 class know_it_all
 {
 public:
-    know_it_all() = default;
-
     auto ask_question(const char *question)
     {
         (void) question;
@@ -174,8 +164,6 @@ public:
         m_answer{std::move(str)}
     { }
 
-    virtual ~answer() = default;
-
     static inline auto make_answer(std::string str)
     { return answer(str); }
 };
@@ -204,8 +192,6 @@ template<factory_t factory = answer::make_answer>
 class know_it_all
 {
 public:
-    know_it_all() = default;
-
     auto ask_question(const char *question)
     {
         (void) question;
@@ -236,8 +222,6 @@ public:
     answer(std::string str) :
         m_answer{std::move(str)}
     { }
-
-    virtual ~answer() = default;
 
     static inline auto make_answer(std::string str)
     { return answer(str); }
