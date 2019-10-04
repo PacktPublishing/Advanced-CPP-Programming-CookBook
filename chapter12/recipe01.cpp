@@ -50,6 +50,12 @@ int main(void)
     show_type(i2);
     show_type(i3);
     show_type(i4);
+
+    char c = 0;
+    auto r = c + 42;
+
+    show_type(c);
+    show_type(r);
 }
 
 #endif
@@ -79,13 +85,44 @@ int main(void)
 {
     int i = 42;
 
-    auto i1 = i;
-    auto &i2 = i;
-    auto &&i3 = i;
+    int i1 = i;
+    int &i2 = i;
 
     show_type(i1);
     show_type(i2);
+
+    auto a1 = i1;
+    auto a2 = i2;
+
+    show_type(a1);
+    show_type(a2);
+
+    auto a3 = i1;
+    auto &a4 = i2;
+
+    show_type(a3);
+    show_type(a4);
+
+    int &&i3 = std::move(i);
     show_type(i3);
+
+    auto &&a5 = i3;
+    show_type(a5);
+
+    auto &&a6 = i1;
+    show_type(a6);
+
+    auto &&a7 = i2;
+    show_type(a7);
+
+    auto &&a8 = i3;
+    show_type(a8);
+
+    auto &&a9 = std::move(i3);
+    show_type(a9);
+
+    auto &&a10 = 42;
+    show_type(a10);
 }
 
 #endif
@@ -99,53 +136,11 @@ int main(void)
 
     auto i1 = i;
     auto &i2 = i;
-    auto &&i3 = i;
+    auto &&i3 = std::move(i);
 
     show_type(i1);
     show_type(i2);
     show_type(i3);
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE05
-
-int main(void)
-{
-    volatile int i = 42;
-
-    auto i1 = i;
-    auto &i2 = i;
-    auto &&i3 = i;
-
-    show_type(i1);
-    show_type(i2);
-    show_type(i3);
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE06
-
-int main(void)
-{
-    int i = 42;
-
-    auto i1 = i;
-    auto &i2 = i;
-    auto &&i3 = i;
-
-    show_type(i1);
-    show_type(i2);
-    show_type(i3);
-
-    auto c1 = 42;
-    auto &&c2 = 42;
-
-    show_type(c1);
-    show_type(c2);
 }
 
 #endif
