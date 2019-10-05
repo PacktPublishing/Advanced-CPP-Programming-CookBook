@@ -70,7 +70,7 @@ constexpr auto is_int<int>()
 
 template<
     typename T,
-    std::enable_if_t<is_int<T>(), int> = 0
+    std::enable_if_t<is_rvalue_reference<T>(), int> = 0
     >
 void the_answer(T is)
 {

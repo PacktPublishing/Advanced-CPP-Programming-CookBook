@@ -50,11 +50,10 @@ public:
     }
 };
 
-the_answer(int) -> the_answer<unsigned>;
-
 int main(void)
 {
-    the_answer is(42);
+    the_answer<unsigned> is_1(42);
+    the_answer is_2(42);
 }
 
 #endif
@@ -73,11 +72,11 @@ public:
     }
 };
 
-the_answer(const char *) -> the_answer<std::string>;
+the_answer(int) -> the_answer<unsigned>;
 
 int main(void)
 {
-    the_answer is("The answer is: 42");
+    the_answer is(42);
 }
 
 #endif
@@ -85,83 +84,22 @@ int main(void)
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE03
 
-template<typename RET, typename... ARGS>
+template<typename T>
 class the_answer
 {
 
 public:
-    the_answer(RET (*func)(ARGS...))
+    the_answer(T t)
     {
-        show_type(func);
+        show_type(t);
     }
 };
 
-int ask_universe(int)
-{
-    return 42;
-}
+the_answer(const char *) -> the_answer<std::string>;
 
 int main(void)
 {
-    the_answer is(ask_universe);
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE04
-
-template<typename RET, typename... ARGS>
-class the_answer
-{
-
-public:
-    the_answer(RET (*func)(ARGS...))
-    {
-        show_type(func);
-    }
-};
-
-int ask_universe(int)
-{
-    return 42;
-}
-
-int main(void)
-{
-    the_answer<int, int> is(ask_universe);
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE05
-
-template<typename>
-class the_answer;
-
-template<typename RET, typename... ARGS>
-class the_answer<RET(ARGS...)>
-{
-
-public:
-    the_answer(RET (*func)(ARGS...))
-    {
-        show_type(func);
-    }
-};
-
-template<typename RET, typename... ARGS>
-the_answer(RET(*)(ARGS...)) -> the_answer<RET(ARGS...)>;
-
-int ask_universe(int)
-{
-    return 42;
-}
-
-int main(void)
-{
-    the_answer<int(int)> is(ask_universe);
+    the_answer is("The answer is: 42");
 }
 
 #endif

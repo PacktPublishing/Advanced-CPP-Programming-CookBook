@@ -66,7 +66,7 @@ class the_answer
 {
 
 public:
-    the_answer(const T &t)
+    the_answer(T &t)
     {
         show_type(t);
     }
@@ -75,9 +75,7 @@ public:
 int main(void)
 {
     int i = 42;
-
-    the_answer is_1(i);
-    the_answer is_2(42);
+    the_answer is(i);
 }
 
 #endif
@@ -115,6 +113,31 @@ class the_answer
 {
 
 public:
+
+    template<typename U>
+    the_answer(T &&t, U &&u)
+    {
+        show_type(t);
+        show_type(u);
+    }
+};
+
+int main(void)
+{
+    int i = 42;
+    the_answer is(std::move(i), i);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE05
+
+template<typename T>
+class the_answer
+{
+
+public:
     the_answer(size_t size, T &&t)
     {
         show_type(t);
@@ -123,16 +146,13 @@ public:
 
 int main(void)
 {
-    int i = 42;
-
-    the_answer is_1(42, std::move(i));
     the_answer is_2(42, 42);
 }
 
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE05
+#ifdef EXAMPLE06
 
 template<typename T, typename U>
 class the_answer
@@ -149,50 +169,6 @@ public:
 int main(void)
 {
     the_answer is("The answer is: ", 42);
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE06
-
-template<typename T, typename U>
-class the_answer
-{
-
-public:
-    the_answer(U &&u, const T &t)
-    {
-        show_type(t);
-        show_type(u);
-    }
-};
-
-int main(void)
-{
-    the_answer is(42, "The answer is: ");
-}
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE07
-
-template<typename T, typename U>
-class the_answer
-{
-
-public:
-    the_answer(const T &t, U &&u)
-    {
-        show_type(t);
-        show_type(u);
-    }
-};
-
-int main(void)
-{
-    the_answer<const char *, int> is("The answer is: ", 42);
 }
 
 #endif

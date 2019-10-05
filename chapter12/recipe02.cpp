@@ -39,6 +39,74 @@ constexpr auto type_info()
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+template<typename FUNC>
+auto question(FUNC &&func)
+{
+    auto x = func() + 10;
+    return x;
+}
+
+short the_answer()
+{
+    return 32;
+}
+
+int main(void)
+{
+    auto i = question(the_answer);
+    show_type(i);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+template<typename FUNC>
+auto question(FUNC &&func)
+{
+    decltype(func()) x = func() + 10;
+    return x;
+}
+
+short the_answer()
+{
+    return 32;
+}
+
+int main(void)
+{
+    auto i = question(the_answer);
+    show_type(i);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE03
+
+template<typename FUNC>
+constexpr auto question(FUNC &&func) -> decltype(func())
+{
+    return func() + 10;
+}
+
+short the_answer()
+{
+    return 32;
+}
+
+int main(void)
+{
+    auto i = question(the_answer);
+    show_type(i);
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE04
+
 int main(void)
 {
     decltype(auto) i1 = 42;
@@ -51,7 +119,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE02
+#ifdef EXAMPLE05
 
 int main(void)
 {
@@ -69,7 +137,7 @@ int main(void)
 #endif
 
 // -----------------------------------------------------------------------------
-#ifdef EXAMPLE03
+#ifdef EXAMPLE06
 
 int main(void)
 {
@@ -91,14 +159,6 @@ int main(void)
     show_type(a2);
     show_type(a3);
 
-    decltype(auto) d1 = i1;
-    decltype(auto) d2 = i2;
-    decltype(auto) d3 = std::move(i3);
-
-    show_type(d1);
-    show_type(d2);
-    show_type(d3);
-
     auto a4 = i1;
     auto &a5 = i2;
     auto &&a6 = std::move(i3);
@@ -106,6 +166,14 @@ int main(void)
     show_type(a4);
     show_type(a5);
     show_type(a6);
+
+    decltype(auto) d1 = i1;
+    decltype(auto) d2 = i2;
+    decltype(auto) d3 = std::move(i3);
+
+    show_type(d1);
+    show_type(d2);
+    show_type(d3);
 }
 
 #endif

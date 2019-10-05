@@ -67,9 +67,7 @@ void foo(const T &t)
 int main(void)
 {
     int i = 42;
-
     foo(i);
-    foo(42);
 }
 
 #endif
@@ -86,9 +84,7 @@ void foo(T &t)
 int main(void)
 {
     int i = 42;
-
     foo(i);
-    // foo(42); // compiler error
 }
 
 #endif
@@ -105,9 +101,7 @@ void foo(T &&t)
 int main(void)
 {
     int i = 42;
-
     foo(i);
-    foo(42);
 }
 
 #endif
@@ -123,9 +117,7 @@ void foo(int &&t)
 int main(void)
 {
     int i = 42;
-
     foo(std::move(i));
-    foo(42);
 }
 
 #endif
