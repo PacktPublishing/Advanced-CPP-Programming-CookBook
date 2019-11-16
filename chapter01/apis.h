@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2019 Rian Quinn <user@gmail.com>
+// Copyright (C) 2019 Rian Quinn <rianquinn@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,40 +19,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE01
+#include "config.h"
 
-#include <atomic>
-#include <thread>
 #include <iostream>
+#include <iomanip>
 
-int count{};
-std::atomic<int> atomic_count{};
-
-void foo()
+namespace library_name
 {
-    do {
-        count++;
-        atomic_count++;
+    void my_api()
+    {
+        if (config::show_hex) {
+            std::cout << std::hex << "The answer is: " << 42 << '\n';
+        }
+        else {
+            std::cout << std::dec << "The answer is: " << 42 << '\n';
+        }
     }
-    while (atomic_count < 99999);
 }
-
-int main(void)
-{
-    std::thread t1{foo};
-    std::thread t2{foo};
-
-    t1.join();
-    t2.join();
-
-    std::cout << "count: " << count << '\n';
-    std::cout << "atomic count: " << atomic_count << '\n';
-
-    return 0;
-}
-
-// count: 711
-// atomic count: 1000
-
-#endif

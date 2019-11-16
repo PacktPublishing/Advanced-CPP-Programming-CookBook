@@ -19,27 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <iostream>
-#include "Poco/JSON/Parser.h"
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE01
 
-using namespace Poco::JSON;
 
 int main(void)
 {
-    std::string json = "{\"answer\": 42}";
-
-    try {
-        Parser parser;
-
-        auto result = parser.parse(json);
-        auto object = result.extract<Object::Ptr>();
-
-        int answer = object->get("answer");
-        std::cout << "The answer is: " << answer << '\n';
-    }
-    catch(JSONException &e) {
-        std::cout << e.message() << '\n';
-    }
-
-    return 0;
 }
+
+#endif

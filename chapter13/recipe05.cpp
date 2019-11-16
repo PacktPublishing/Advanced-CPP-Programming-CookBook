@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2019 Rian Quinn <user@gmail.com>
+// Copyright (C) 2019 Rian Quinn <rianquinn@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,37 +22,62 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
-#include <atomic>
-#include <thread>
+#include <vector>
 #include <iostream>
 
-int count{};
-std::atomic<int> atomic_count{};
-
-void foo()
+auto
+even_numbers(size_t s, size_t e)
 {
-    do {
-        count++;
-        atomic_count++;
+    std::vector<int> nums;
+
+    if (s % 2 != 0 || e % 2 != 0) {
+        std::terminate();
     }
-    while (atomic_count < 99999);
+
+    for (auto i = s; i <= e; i += 2) {
+        nums.push_back(i);
+    }
+
+    return nums;
 }
 
 int main(void)
 {
-    std::thread t1{foo};
-    std::thread t2{foo};
+    for (const auto &num : even_numbers(0, 10)) {
+        std::cout << num << ' ';
+    }
 
-    t1.join();
-    t2.join();
-
-    std::cout << "count: " << count << '\n';
-    std::cout << "atomic count: " << atomic_count << '\n';
-
-    return 0;
+    std::cout << '\n';
 }
 
-// count: 711
-// atomic count: 1000
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE02
+
+#include <iostream>
+
+generator<int>
+even_numbers(size_t s, size_t e)
+{
+    if (s % 2 != 0 || e % 2 != 0) {
+        std::terminate();
+    }
+
+    for (auto i = s; i < e; i += 2) {
+        co_yield i;
+    }
+
+    co_return e;
+}
+
+int main(void)
+{
+    for (const auto &num : even_numbers(0, 10)) {
+        std::cout << num << ' ';
+    }
+
+    std::cout << '\n';
+}
 
 #endif

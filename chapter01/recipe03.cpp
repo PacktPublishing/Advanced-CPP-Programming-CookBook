@@ -22,34 +22,99 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
+#include "my_library.h"
 #include <iostream>
-#include <boost/chrono.hpp>
 
 int main(void)
 {
-    using namespace boost::chrono;
+    using namespace library_name;
 
-    std::cout << "Date/Time: " <<  system_clock::now() << '\n';
+    std::cout << "The answer is: " << my_api() << '\n';
     return 0;
 }
-
-// Date/Time: 1553806902449578972 nanoseconds since Jan 1, 1970
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02
 
-#include <boost/log/trivial.hpp>
+#include <iostream>
+#include "my_library.h"
 
 int main(void)
 {
-    BOOST_LOG_TRIVIAL(debug) << "debug message";
-    BOOST_LOG_TRIVIAL(info) << "info message";
+    library_name::my_api();
     return 0;
 }
 
-// [2019-03-28 15:07:16.593304] [0x00007fc1f534d740] [debug]   debug message
-// [2019-03-28 15:07:16.593345] [0x00007fc1f534d740] [info]    info message
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE03
+
+#include "my_library.h"
+#include <iostream>
+
+int main(void)
+{
+    library_name::my_api();
+    return 0;
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE04
+
+#include "my_library.h"
+#include <iostream>
+
+int main(void)
+{
+    library_name::my_api();
+    library_name::config::show_hex = true;
+    library_name::my_api();
+
+    return 0;
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE05
+
+#include "my_library.h"
+
+int main(void)
+{
+    library_name::my_api(42);
+    return 0;
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE06
+
+#include "apis.h"
+
+int main(void)
+{
+    library_name::my_api();
+    return 0;
+}
+
+#endif
+
+// -----------------------------------------------------------------------------
+#ifdef EXAMPLE07
+
+#include "my_library_single.h"
+
+int main(void)
+{
+    library_name::my_api();
+    return 0;
+}
 
 #endif

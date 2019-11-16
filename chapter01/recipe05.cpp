@@ -20,37 +20,36 @@
 // SOFTWARE.
 
 // -----------------------------------------------------------------------------
-#ifndef EXAMPLE02
+#ifdef EXAMPLE01
 
 #include <iostream>
-#include "abseil-cpp-20181200/absl/strings/numbers.h"
+#include <boost/chrono.hpp>
 
 int main(void)
 {
-    int answer;
-    (void) absl::SimpleAtoi("42", &answer);
+    using namespace boost::chrono;
 
-    std::cout << "The answer is: " << answer << '\n';
+    std::cout << "Date/Time: " <<  system_clock::now() << '\n';
     return 0;
 }
 
-// The answer is: 42
+// Date/Time: 1553806902449578972 nanoseconds since Jan 1, 1970
 
 #endif
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02
 
-#include <iostream>
-#include "abseil-cpp-20181200/absl/time/clock.h"
+#include <boost/log/trivial.hpp>
 
 int main(void)
 {
-    std::cout << "Time: " << absl::Now() << '\n';
+    BOOST_LOG_TRIVIAL(debug) << "debug message";
+    BOOST_LOG_TRIVIAL(info) << "info message";
     return 0;
 }
 
-// Time: 2019-03-30T14:12:27.423875045-06:00
+// [2019-03-28 15:07:16.593304] [0x00007fc1f534d740] [debug]   debug message
+// [2019-03-28 15:07:16.593345] [0x00007fc1f534d740] [info]    info message
 
 #endif
-

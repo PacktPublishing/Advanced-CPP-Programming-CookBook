@@ -32,7 +32,7 @@ struct the_answer
 template<typename T>
 void foo(typename T::type t)
 {
-    std::cout << "The answer is: " << t << '\n';
+    std::cout << "The answer is not: " << t << '\n';
 }
 
 template<typename T>
@@ -43,13 +43,13 @@ void foo(T t)
 
 int main(void)
 {
+    foo<the_answer>(23);
     foo<int>(42);
-    foo<the_answer>(42);
 
     return 0;
 }
 
-// The answer is: 42
+// The answer is: 23
 // The answer is: 42
 
 #endif
@@ -70,7 +70,7 @@ constexpr auto is_int<int>()
 
 template<
     typename T,
-    std::enable_if_t<is_rvalue_reference<T>(), int> = 0
+    std::enable_if_t<is_int<T>(), int> = 0
     >
 void the_answer(T is)
 {

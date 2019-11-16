@@ -71,15 +71,37 @@ example(02)
 
 add_custom_target(recipe03_examples)
 
+file(STRINGS "config.h" CONFIG_H)
+file(STRINGS "apis.h" APIS_H)
+
+list(APPEND MY_LIBRARY_SINGLE
+    "${CONFIG_H}"
+    ""
+    "${APIS_H}"
+)
+
+file(REMOVE "my_library_single.h")
+foreach(LINE IN LISTS MY_LIBRARY_SINGLE)
+    if(LINE MATCHES "#include \"")
+        file(APPEND "my_library_single.h" "// ${LINE}\n")
+    else()
+        file(APPEND "my_library_single.h" "${LINE}\n")
+    endif()
+endforeach()
+
 function(example number)
     add_executable(recipe03_example${number} recipe03.cpp)
-    target_compile_definitions(recipe03_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+    target_compile_definitions(recipe03_example${number} PRIVATE EXAMPLE${number})
     add_dependencies(recipe03_examples recipe03_example${number})
-    target_link_libraries(recipe03_example${number} boost_chrono boost_log boost_system pthread)
 endfunction(example)
 
 example(01)
 example(02)
+example(03)
+example(04)
+example(05)
+example(06)
+example(07)
 
 # ------------------------------------------------------------------------------
 # Recipe 04
@@ -87,65 +109,32 @@ example(02)
 
 add_custom_target(recipe04_examples)
 
+set(CMAKE_CXX_CLANG_TIDY clang-tidy)
+
 function(example number)
     add_executable(recipe04_example${number} recipe04.cpp)
-    target_compile_definitions(recipe04_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+    target_compile_definitions(recipe04_example${number} PRIVATE EXAMPLE${number})
     add_dependencies(recipe04_examples recipe04_example${number})
-    target_link_libraries(recipe04_example${number} follybenchmark folly glog gflags double-conversion boost_regex boost_system pthread)
+endfunction(example)
+
+example(01)
+
+# ------------------------------------------------------------------------------
+# Recipe 05
+# ------------------------------------------------------------------------------
+
+add_custom_target(recipe05_examples)
+
+function(example number)
+    add_executable(recipe05_example${number} recipe05.cpp)
+    target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
+    add_dependencies(recipe05_examples recipe05_example${number})
+    target_link_libraries(recipe05_example${number} boost_chrono boost_log boost_system pthread)
 endfunction(example)
 
 example(01)
 example(02)
 
 # ------------------------------------------------------------------------------
-# Recipe 05
-# ------------------------------------------------------------------------------
-
-if(DEFINED BUILD_RECIPE05)
-    set(ignore "${BUILD_RECIPE05}")
-
-    add_subdirectory(abseil-cpp-20181200)
-    add_custom_target(recipe05_examples)
-
-    function(example number)
-        add_executable(recipe05_example${number} recipe05.cpp)
-        target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number} BOOST_LOG_DYN_LINK)
-        add_dependencies(recipe05_examples recipe05_example${number})
-        target_link_libraries(recipe05_example${number} absl::strings absl::time)
-    endfunction(example)
-
-    example(01)
-    example(02)
-endif()
-
-# ------------------------------------------------------------------------------
 # Recipe 06
 # ------------------------------------------------------------------------------
-
-if(DEFINED BUILD_RECIPE06)
-    set(ignore "${BUILD_RECIPE06}")
-
-    find_package(Poco REQUIRED JSON)
-    add_custom_target(recipe06_examples)
-
-    function(example number)
-        add_executable(recipe06_example${number} recipe06.cpp)
-        add_dependencies(recipe06_examples recipe06_example${number})
-        target_link_libraries(recipe06_example${number} Poco::JSON)
-    endfunction(example)
-
-    example(01)
-endif()
-
-# ------------------------------------------------------------------------------
-# Recipe 05 Example 01 Script
-# ------------------------------------------------------------------------------
-
-# cmake_minimum_required(VERSION 3.6)
-# project(chapter01)
-
-# set(CMAKE_CXX_STANDARD 17)
-
-# add_subdirectory(abseil-cpp-20181200)
-# add_executable(recipe05_example01 recipe05.cpp)
-# target_link_libraries(recipe05_example01 absl::strings)

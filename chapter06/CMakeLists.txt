@@ -114,19 +114,3 @@ endfunction(example)
 
 example(01)
 example(02)
-
-# ------------------------------------------------------------------------------
-# Recipe 05
-# ------------------------------------------------------------------------------
-
-add_custom_target(recipe05_examples)
-
-function(example number)
-    add_executable(recipe05_example${number} recipe05.cpp)
-    target_compile_definitions(recipe05_example${number} PRIVATE EXAMPLE${number})
-    target_link_libraries(recipe05_example${number} pthread)
-    add_dependencies(recipe05_examples recipe05_example${number})
-endfunction(example)
-
-example(01)
-example(02)

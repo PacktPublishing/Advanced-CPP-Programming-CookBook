@@ -30,7 +30,7 @@ class the_answer
 
 public:
 
-    the_answer()
+    ~the_answer()
     {
         std::cout << "The answer is: " << m_answer << '\n';
     }
@@ -45,18 +45,6 @@ int main(void)
 // The answer is: 42
 
 #endif
-
-// the_answer is1;
-// the_answer is2 = is1;
-
-// the_answer is1;
-// the_answer is2 = std::move(is1);
-
-// class the_question : public the_answer
-// {
-// public:
-//     the_question() = default;
-// };
 
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE02

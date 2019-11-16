@@ -22,51 +22,19 @@
 // -----------------------------------------------------------------------------
 #ifdef EXAMPLE01
 
-#include <set>
-#include <folly/Benchmark.h>
-
-BENCHMARK(insert) {
-    std::set<int> v;
-    for (auto i = 0; i < 1000; i++) {
-        v.insert(i);
-    }
-}
-
-int main(void)
-{
-    folly::runBenchmarks();
-    return 0;
-}
-
-// ============================================================================
-// /home/user/book/chapter01/recipe04.cpp          relative  time/iter  iters/s
-// ============================================================================
-// insert                                                     384.74us    2.60K
-// ============================================================================
-
-#endif
-
-// -----------------------------------------------------------------------------
-#ifdef EXAMPLE02
-
 #include <iostream>
-#include <folly/dynamic.h>
 
-int main(void)
+int universe()
 {
-    folly::dynamic answer;
+    auto i = new int;
+    int the_answer;
+    return the_answer;
+}
 
-    answer = 42;
-    std::cout << "The answer is: " << answer << '\n';
-
-    answer = "42";
-    std::cout << "The answer is: " << answer << '\n';
-
+int main()
+{
+    std::cout << universe() << '\n';
     return 0;
 }
 
-// The answer is: 42
-// The answer is: 42
-
 #endif
-
