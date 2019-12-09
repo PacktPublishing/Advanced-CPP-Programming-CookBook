@@ -197,7 +197,6 @@ void build_car()
 
     {
         auto c = std::make_shared<car>();
-        auto e2 = e;
 
         c->m_engine = e;
         e->m_car = c;
