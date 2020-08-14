@@ -37,9 +37,10 @@ include(ExternalProject)
 # ------------------------------------------------------------------------------
 
 function(add_chapter name)
+    string(REGEX REPLACE "^.(.*)" "C\\1" NAME_CAP "${name}")
     ExternalProject_Add(
         ${name}
-        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${name}
+        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${NAME_CAP}
         INSTALL_COMMAND ""
     )
 endfunction(add_chapter)
